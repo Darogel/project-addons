@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "todo_app",
+    'name': "To do App",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        subtitle on modules listing or apps.openerp.com
+        Prueba de Odoo con Git y Postgress""",
 
     'description': """
         Long description of module's purpose
+        Escuela FullStack Odoo 13
     """,
 
     'author': "My Company",
