@@ -8,3 +8,6 @@ class ToDo(models.Model):
 
     name = fields.Char(string = "Nombre")
     state = fields.Char(string = "Estado")
+    description = fields.Char(string="Descripcion")
+    title = fields.Char(string="Titulo")
+    price = fields.Char(string="Precio")

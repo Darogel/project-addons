@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "To do App",
+    'name': "Todo App",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
