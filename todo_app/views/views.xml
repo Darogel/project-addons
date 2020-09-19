@@ -1,5 +1,6 @@
 <odoo>
   <data>
+    <!--Arbol (Tree)-->
     <record model="ir.ui.view" id="view_tree_todo">
       <field name="name">todo_app.view.tree.todo</field>
       <field name="model">todo.app</field>
@@ -12,6 +13,7 @@
         </tree>
       </field>
     </record>
+
     <!--Formulario-->
     <record model="ir.ui.view" id="view_form_todo">
       <field name="name">todo_app.view.form.todo</field>
