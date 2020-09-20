@@ -7,11 +7,11 @@
         </record>
         <record id="action_view_categoria" model="ir.actions.act_window">
             <field name="name">Categorias</field>
-            <field name="res_model">sa.category</field>
+            <field name="res_model">sa.categoria</field>
         </record>
         <record id="action_view_tag" model="ir.actions.act_window">
             <field name="name">Tags</field>
-            <field name="res_model">sa.tags</field>
+            <field name="res_model">sa.tag</field>
         </record>
 
         <!--Menu-->

@@ -11,16 +11,16 @@ class Movimiento(models.Model):
     receipt_image = fields.Binary("Foto del recibo")
     #Relaciones
     user_id = fields.Many2one("res.users", string="Usuario")
-    category_id = fields.Many2one("sa.category","Categoria")
+    category_id = fields.Many2one("sa.categoria","Categoria")
 
 class Category(models.Model):
-    _name = "sa.category"
+    _name = "sa.categoria"
     _description = "Categoria"
 
     name = fields.Char("Nombre")
 
 class Tag(models.Model):
-    _name = "sa.tags"
+    _name = "sa.tag"
     _description = "Tag"
 
     name = fields.Char("Nombre")
