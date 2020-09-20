@@ -9,6 +9,9 @@ class Movimiento(models.Model):
     date = fields.Datetime("Fecha")
     amount = fields.Float("Monto")
     receipt_image = fields.Binary("Foto del recibo")
+    #Relaciones
+    user_id = fields.Many2one("res.users", string="Usuario")
+    category_id = fields.Many2one("sa.category","Categoria")
 
 class Category(models.Model):
     _name = "sa.category"
@@ -22,3 +25,7 @@ class Tag(models.Model):
 
     name = fields.Char("Nombre")
 
+class ResUser(models.Model):
+    _inherit = "res.users"
+
+    movimiento_ids = fields.One2many("sa.movimiento","user_id")
