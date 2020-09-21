@@ -1,6 +1,8 @@
 <odoo>
     <data>
         <!--Vistas-->
+
+        <!--Vista Crear Movimientos-->
         <record id="view_form_movimiento" model="ir.ui.view">
             <field name="name">view.form.sa.movimiento</field>
             <field name="model">sa.movimiento</field>
@@ -31,6 +33,23 @@
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                 </form>
+            </field>
+        </record>
+
+        <!--Vista Arbol Movimientos-->
+        <record id="view_tree_movimiento" model="ir.ui.view">
+            <field name="name">view.tree.sa.movimiento</field>
+            <field name="model">sa.movimiento</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="type_mov == 'ingreso'" decoration-danger="type_mov == 'gasto'">
+                    <field name="date" optional="show"/>
+                    <field name="name"/>
+                    <field name="type_mov"/>
+                    <field name="amount" widget="monetary" options="{'currency_field':'currency_id'}" optional="show"/>
+                    <field name="tag_ids" optional="hide" widget="many2many_tags" string="Etiquetas"/>
+                    <field name="category_id" optional="hide"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
             </field>
         </record>
 
