@@ -24,6 +24,17 @@ class Category(models.Model):
 
     name = fields.Char(string="Nombre")
 
+    def ver_movimientos(self):
+        return {
+            "type":"ir.actions.act_window",
+            "name":"Movimientos de Categoria: "+self.name,
+            "res_model":"sa.movimiento",
+            "views":[[False, "tree"]],
+            "target":"new",
+            #"target": "self",
+            "domain":[["category_id","=",self.id]]
+        }
+
 class Tag(models.Model):
     _name = "sa.tag"
     _description = "Tag"
