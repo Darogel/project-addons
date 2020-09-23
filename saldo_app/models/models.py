@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class Movimiento(models.Model):
     _name = "sa.movimiento" #sa_movimiento
@@ -43,15 +44,25 @@ class Movimiento(models.Model):
         amount = vals.get("amount","0")
         type_mov = vals.get("type_mov","")
         date = vals.get("date", "")
+
+        #para la cantidad de movimientos del usuario
+        user = self.env.user
+        count_movs = user.count_mov
+        #Condicion para controlar los 5 movimientos de usuarios Free
+        if count_movs >= 5 and user.has_group("saldo_app.res_groups_user_free"):
+            raise ValidationError("Tu cuenta permite creacion de 5 movimientos")
+
         notas = """<p>Tipo de Movimiento: {}</p><p>Nombre: {}</p><p>Monto: {}</p><p>Fecha: {}<br></p>"""
         vals["notas"] = notas.format(type_mov, name, amount, date)
         return super(Movimiento, self).create(vals)
 
-    def unlink(self):
+    """ def unlink(self):
         for record in self:
             if record.amount>=50:
                 raise ValidationError("Movimientos con montos mayores a 50 NO pueden ser eliminados")
         return super(Movimiento, self).unlink()
+    """
+
 
 
 class Category(models.Model):
@@ -85,6 +96,8 @@ class ResUser(models.Model):
 
     movimiento_ids = fields.One2many("sa.movimiento","user_id")
     currency_id = fields.Many2one("res.currency", default=2)
+    count_mov = fields.Integer("Cantidad de movimientos por mes", compute="_compute_movimientos")
+
     total_ingresos = fields.Float("Total de Ingresos", compute="_compute_movimientos")
     total_egresos = fields.Float("Total de Egresos", compute="_compute_movimientos")
 
@@ -94,6 +107,9 @@ class ResUser(models.Model):
         for record in self:
             record.total_ingresos = sum(record.movimiento_ids.filtered(lambda r:r.type_mov =='ingreso').mapped("amount"))
             record.total_egresos = sum(record.movimiento_ids.filtered(lambda r: r.type_mov == 'gasto').mapped("amount"))
+            mes = datetime.now().month
+            movs = record.movimiento_ids.filtered(lambda r: r.create_date.month == mes)
+            record.count_mov = len(movs)
 
     #Funcion para Presentar vista Mi cuenta
     def mi_cuenta(self):

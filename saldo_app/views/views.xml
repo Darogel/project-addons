@@ -30,8 +30,8 @@
                                        attrs="{'required':[('amount','&gt;',100)]}"
                                        options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"
                                        context="{'default_type_mov':type_mov, 'default_name':'Nueva Categoria'}"/>
-                                <field name="user_id"/>
-                                <field name="email"/>
+                                <field name="user_id" groups="saldo_app.res_groups_administrador"/>
+                                <field name="email" groups="saldo_app.res_groups_administrador"/>
                             </group>
                         </group>
                         <group>
@@ -105,6 +105,7 @@
                     <field name="tag_ids" optional="hide" widget="many2many_tags" string="Etiquetas"/>
                     <field name="category_id" optional="hide"/>
                     <field name="currency_id" invisible="1"/>
+                    <field name="create_uid" groups="saldo_app.res_groups_administrador"/>
                 </tree>
             </field>
         </record>
@@ -209,7 +210,7 @@
             </field>
         </record>
 
-        <!--Vista Heredada-->
+        <!--Vista Heredada de USER-->
         <record id="view_res_users_add_movimientos" model="ir.ui.view">
             <field name="name">view.res.users.add.movimientos</field>
             <field name="model">res.users</field>
@@ -219,6 +220,7 @@
                     <group>
                         <field name="email"/>
                         <field name="movimiento_ids"/>
+                        <field name="count_mov"/>
                         <field name="total_ingresos" widget="monetary" options="{'currency_field':'currency_id'}"/>
                         <field name="total_egresos" widget="monetary" options="{'currency_field':'currency_id'}"/>
                         <field name="currency_id" invisible="1"/>
