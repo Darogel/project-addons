@@ -59,6 +59,7 @@ class Category(models.Model):
     _description = "Categoria"
 
     name = fields.Char(string="Nombre")
+    type_mov = fields.Selection(selection=[("ingreso","Ingreso"),("gasto","Gasto")], string="Tipo",default="ingreso",required=True)
 
     #Funcion para Modal de cada Movimiento
     def ver_movimientos(self):
@@ -77,6 +78,7 @@ class Tag(models.Model):
     _description = "Tag"
 
     name = fields.Char(string="Nombre")
+    type_mov = fields.Selection(selection=[("ingreso","Ingreso"),("gasto","Gasto")], string="Tipo",default="ingreso",required=True)
 
 class ResUser(models.Model):
     _inherit = "res.users"

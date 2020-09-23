@@ -20,15 +20,24 @@
                                 <field name="date" required="1"/>
                             </group>
                             <group>
-                                <field name="tag_ids" widget="many2many_tags"/>
-                                <field name="category_id"/>
+                                <field name="tag_ids" widget="many2many_tags"
+                                       domain="[('type_mov','=',type_mov)]"
+                                       context="{'default_type_mov':type_mov}"
+                                       options="{'no_quick_create':True, 'no_create_edit':True}"
+                                       attrs="{'readonly':[('amount','&lt;',50)]}"/>
+                                <field name="category_id"
+                                       domain="[('type_mov','=',type_mov)]"
+                                       attrs="{'required':[('amount','&gt;',100)]}"
+                                       options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"
+                                       context="{'default_type_mov':type_mov, 'default_name':'Nueva Categoria'}"/>
                                 <field name="user_id"/>
                                 <field name="email"/>
                             </group>
                         </group>
                         <group>
                             <field name="notas"/>
-                            <field name="receipt_image" widget="image"/>
+                            <field name="receipt_image" widget="image"
+                                   attrs="{'invisible':[('type_mov','=','ingreso')]}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -101,6 +110,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="type_mov"/>
                             <button name="ver_movimientos" type="object" string="Ver Movimientos"/>
                         </group>
                     </sheet>
