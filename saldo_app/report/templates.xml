@@ -1,0 +1,32 @@
+<odoo>
+    <template id="saldo_app.report_detalle_movimiento">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <span t-esc="fecha"/>
+                        <h1 align="center">Detalle de Movimiento</h1>
+                        <h5>Descripcion: <t t-esc="doc.name"></t></h5>
+                        <br/>
+                        <span>Tipo: <span t-field="doc.type_mov"/> <!--<span t-esc="doc.type_mov"/>--></span>
+                        <t t-if="doc.type_mov == 'ingreso'">
+                            <div style="width:20px;height:20px;background-color:green"/>
+                        </t>
+                        <br/>
+                        <t t-if="doc.type_mov == 'gasto'">
+                            <div style="width:20px;height:20px;background-color:red"/>
+                        </t>
+                        <br/>
+                        <span>Fecha: <span t-field="doc.date"/></span>
+                        <br/>
+                        <span>Monto: <span t-field="doc.amount" t-options="{'widget':'monetary', 'display_currency':doc.currency_id}"/></span>
+                        <br/>
+                        <span>Categoria: <span t-field="doc.category_id"/> <!--<<span t-esc="doc.category_id"/>--></span>
+                        <br/>
+                        <span>Etiquetas: <span t-field="doc.tag_ids"/> <!--<<span t-esc="doc.tag_ids"/>--></span>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

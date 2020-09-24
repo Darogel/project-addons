@@ -142,7 +142,7 @@
                             domain="[('type_mov','=','ingreso')]"/>
                     <filter name="filter_tipo_gatos"
                             string="Gastos"
-                            domain="[('type_mov','=','gastos')]"/>
+                            domain="[('type_mov','=','gasto')]"/>
                     <separator/>
                     <filter name="filter_today"
                             string="Hoy"
