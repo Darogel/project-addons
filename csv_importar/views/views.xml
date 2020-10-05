@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <!--Vistas-->
-        <!--Vista Crear Movimientos-->
+        <!--Vista Crear Tareas-->
         <record id="view_form_tarea" model="ir.ui.view">
             <field name="name">view.form.cs.tarea</field>
             <field name="model">cs.tarea</field>
@@ -38,7 +38,7 @@
             <field name="model">cs.tarea</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban>
+                <kanban default_group_by="state">
                     <field name="name" />
                     <field name="description" />
                     <templates>

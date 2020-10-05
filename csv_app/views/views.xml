@@ -1,0 +1,207 @@
+<odoo>
+    <data>
+
+        <!--view form-->
+        <record id="view_form_tarea" model="ir.ui.view">
+            <field name="name">view.form.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="state" required="1"/>
+                                <field name="expired"/>
+                            </group>
+                            <group>
+                                <field name="categoria_id"/>
+                            </group>
+                            <group>
+                                <field name="date_init" required="1"/>
+                                <field name="date_fin" required="1"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_form_docente" model="ir.ui.view">
+            <field name="name">view.form.res.users</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="phone" required="1"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Vista Kanban
+
+        <record id="view_kanban_tarea" model="ir.ui.view">
+           <field name="name">view.kanban.cv.tarea</field>
+           <field name="model">cv.tarea</field>
+           <field name="arch" type="xml">
+
+           </field>
+        </record>-->
+        <!--Vista arbol tareas-->
+
+        <record id="view_tree_tarea" model="ir.ui.view">
+            <field name="name">view.tree.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                 <kanban  default_group_by = "categoria_id" class="o_kanban_small_column o_kanban_project_tasks" >
+                   <field name="name"/>
+                   <field name="state"/>
+                   <field name="categoria_id" optional="hide"/>
+                   <field name="create_uid"/>
+                   <templates>
+                       <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_global_click">
+                               <div class="o_kanban_image">
+
+                               </div>
+                               <div class="oe_kanban_details">
+                                   <t class="o_kanban_record_title">
+                                       <strong t-esc="record.name.value"/>
+                                   </t>
+                                   <div t-if="record.state.value">
+                                       <t t-esc="record.state.value"/>
+                                   </div>
+                                   <div t-if="record.categoria_id.value">
+                                       <t t-esc="record.categoria_id.value"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </t>
+                   </templates>
+                 </kanban>
+            </field>
+        </record>
+
+        <record id="view_tree_docente" model="ir.ui.view">
+            <field name="name">view.tree.res.users</field>
+            <field name="model">res.users</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                 <kanban>
+                   <field name="name"/>
+                   <field name="phone"/>
+                   <field name="email" optional="hide"/>
+                   <templates>
+                       <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_global_click">
+                               <div class="o_kanban_image">
+
+                               </div>
+                               <div class="oe_kanban_details">
+                                   <t class="o_kanban_record_title">
+                                       <strong t-esc="record.name.value"/>
+                                   </t>
+                                   <div t-if="record.phone.value">
+                                       <t t-esc="record.phone.value"/>
+                                   </div>
+                                   <div t-if="record.email.value">
+                                       <t t-esc="record.email.value"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </t>
+                   </templates>
+                 </kanban>
+            </field>
+        </record>
+
+        <!--Vista de calendario-->
+        <record id="view_calendar_tarea" model="ir.ui.view">
+            <field name="name">view.calendar.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date_init" mode="month">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--Vista Usuario-->
+        <record id="view_res_users_add_tareas" model="ir.ui.view">
+            <field name="name">view.res.users.add.tareas</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_simple_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="sheet" position="inside"/>
+                <group>
+                    <field name="email"/>
+                    <field name="tarea_ids"/>
+                </group>
+            </field>
+        </record>
+
+        <!--Acciones de ventana tarea-->
+        <record id="action_view_tarea" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="res_model">cv.tarea</field>
+            <field name="limit">10</field>
+            <field name="view_mode">kanban,form,calendar</field>
+        </record>
+
+        <!--Acciones de ventana usuario-->
+        <record id="action_view_usuario" model="ir.actions.act_window">
+            <field name="name">Docentes</field>
+            <field name="res_model">res.users</field>
+            <field name="limit">10</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+        <!--Acciones de ventana categoria-->
+        <record id="action_view_categoria" model="ir.actions.act_window">
+            <field name="name">Categoria</field>
+            <field name="res_model">cv.categoria</field>
+            <field name="limit">10</field>
+            <!--<field name="view_mode">kanban,form</field>-->
+        </record>
+
+        <!--Par ver Usuario-->
+        <record id="action_server_mi_tarea" model="ir.actions.server">
+            <field name="name">Mis Tareas</field>
+            <field name="model_id" ref="csv_app.model_cv_tarea"/>
+            <field name="state">code</field>
+            <field name="code">action = model.mis_tareas()</field>
+        </record>
+
+        <!--Menú-->
+         <menuitem id="menu_main_csv_app"
+                  name="Plan Mejoras"
+                  parent=""
+                  action="csv_app.action_view_usuario"/>
+
+        <menuitem id="menu_tarea"
+                  name="Tareas"
+                  parent="csv_app.menu_main_csv_app"
+                  action="csv_app.action_view_tarea"/>
+
+        <menuitem id="menu_categoria"
+                  name="Categoria"
+                  parent="csv_app.menu_main_csv_app"
+                  action="csv_app.action_view_categoria"/>
+    </data>
+</odoo>
