@@ -62,6 +62,7 @@
 
            </field>
         </record>-->
+
         <!--Vista arbol tareas-->
 
         <record id="view_tree_tarea" model="ir.ui.view">
@@ -107,6 +108,7 @@
                    <field name="name"/>
                    <field name="phone"/>
                    <field name="email" optional="hide"/>
+
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
@@ -143,7 +145,7 @@
         </record>
 
         <!--Vista Usuario-->
-        <record id="view_res_users_add_tareas" model="ir.ui.view">
+       <record id="view_res_users_add_tareas" model="ir.ui.view">
             <field name="name">view.res.users.add.tareas</field>
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_simple_form"/>
@@ -152,9 +154,10 @@
                 <group>
                     <field name="email"/>
                     <field name="tarea_ids"/>
+                    <button id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary" />
                 </group>
             </field>
-        </record>
+       </record>
 
         <!--Acciones de ventana tarea-->
         <record id="action_view_tarea" model="ir.actions.act_window">
@@ -180,13 +183,13 @@
             <!--<field name="view_mode">kanban,form</field>-->
         </record>
 
-        <!--Par ver Usuario-->
+        <!--Par ver Usuario
         <record id="action_server_mi_tarea" model="ir.actions.server">
             <field name="name">Mis Tareas</field>
             <field name="model_id" ref="csv_app.model_cv_tarea"/>
             <field name="state">code</field>
             <field name="code">action = model.mis_tareas()</field>
-        </record>
+        </record>-->
 
         <!--Menú-->
          <menuitem id="menu_main_csv_app"

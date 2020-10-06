@@ -40,7 +40,9 @@ class Tarea(models.Model):
             "res_id": self.env.user.id,
             "target": "self",
             "views": [(False, "kanban")]
-    }
+        }
+
+
 class Categoria(models.Model):
     _name = "cv.categoria"
     _description = "Categoria"
@@ -58,3 +60,13 @@ class ResUser(models.Model):
 
 
     tarea_ids = fields.One2many("cv.tarea", "user_id")
+
+    def vista_tree(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Mis Tareas",
+            "res_model": "cv.tarea",
+            "res_id": self.env.user.id,
+            "target": "self",
+            "views": [(False, "kanban")]
+        }
