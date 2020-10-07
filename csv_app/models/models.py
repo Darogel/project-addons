@@ -68,5 +68,6 @@ class ResUser(models.Model):
             "res_model": "cv.tarea",
             "res_id": self.env.user.id,
             "target": "self",
-            "views": [(False, "kanban")]
+            "views": [(False, "kanban")],
+            "domain": [["user_id", "=", self.id]]
         }

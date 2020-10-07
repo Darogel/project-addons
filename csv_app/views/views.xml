@@ -1,6 +1,5 @@
 <odoo>
     <data>
-
         <!--view form-->
         <record id="view_form_tarea" model="ir.ui.view">
             <field name="name">view.form.cv.tarea</field>
@@ -53,19 +52,9 @@
                 </form>
             </field>
         </record>
-        <!--Vista Kanban
+
 
         <record id="view_kanban_tarea" model="ir.ui.view">
-           <field name="name">view.kanban.cv.tarea</field>
-           <field name="model">cv.tarea</field>
-           <field name="arch" type="xml">
-
-           </field>
-        </record>-->
-
-        <!--Vista arbol tareas-->
-
-        <record id="view_tree_tarea" model="ir.ui.view">
             <field name="name">view.tree.cv.tarea</field>
             <field name="model">cv.tarea</field>
             <field name="type">kanban</field>
@@ -99,7 +88,7 @@
             </field>
         </record>
 
-        <record id="view_tree_docente" model="ir.ui.view">
+        <record id="view_kanban_docente" model="ir.ui.view">
             <field name="name">view.tree.res.users</field>
             <field name="model">res.users</field>
             <field name="type">kanban</field>
@@ -108,12 +97,13 @@
                    <field name="name"/>
                    <field name="phone"/>
                    <field name="email" optional="hide"/>
-
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
                                <div class="o_kanban_image">
-
+                                    <img src="https://thumbs.dreamstime.com/b/icono-del-var%C3%B3n-del-usuario-ninguna-cara-43652345.jpg"
+                                         width="80"
+                                         height="80"/>
                                </div>
                                <div class="oe_kanban_details">
                                    <t class="o_kanban_record_title">
@@ -126,10 +116,32 @@
                                        <t t-esc="record.email.value"/>
                                    </div>
                                </div>
+                                <!--<div class="oe_button_box" name="button_box" style="text-align: right">
+                                   <button align="center" style="height:25px; width:100px" id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary">
+                                       Ver Tareas
+                                   </button>
+                               </div>-->
+                               <br/>
+                               <div align="right" class="oe_button_box" >
+                                    <button id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary">Ver Tareas</button>
+                                </div>
                            </div>
+
                        </t>
                    </templates>
                  </kanban>
+            </field>
+        </record>
+
+        <record id="view_tree_docente" model="ir.ui.view">
+            <field name="name">view.tree.res.docente</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="phone"/>
+                   <field name="email" optional="hide"/>
+                </tree>
             </field>
         </record>
 
@@ -154,7 +166,7 @@
                 <group>
                     <field name="email"/>
                     <field name="tarea_ids"/>
-                    <button id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary" />
+
                 </group>
             </field>
        </record>
@@ -167,13 +179,42 @@
             <field name="view_mode">kanban,form,calendar</field>
         </record>
 
-        <!--Acciones de ventana usuario-->
+        <!--ESto agrege-->
+
         <record id="action_view_usuario" model="ir.actions.act_window">
             <field name="name">Docentes</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.users</field>
-            <field name="limit">10</field>
-            <field name="view_mode">kanban,form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a contact in your address book
+                </p><p>
+                    Odoo helps you to easily track all activities related to a customer.
+                </p>
+            </field>
         </record>
+
+        <record id="action_view_docente_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="csv_app.view_kanban_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+        <record id="action_view_docente_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="csv_app.view_tree_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+        <record id="action_view_docente_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="csv_app.view_form_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+
 
         <!--Acciones de ventana categoria-->
         <record id="action_view_categoria" model="ir.actions.act_window">
