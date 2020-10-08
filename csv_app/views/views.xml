@@ -123,7 +123,16 @@
                                </div>-->
                                <br/>
                                <div align="right" class="oe_button_box" >
-                                    <button id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary">Ver Tareas</button>
+                                    <button id="task_view"
+                                            string="Ver Tareas"
+                                            type="object"
+                                            name="vista_tree"
+                                            class="btn btn-primary">Ver Tareas</button>
+                                   <!--<button id="task_view"
+                                            string="Ver Tareas"
+                                            type="action"
+                                            name="action_view_task"
+                                            class="btn btn-primary">Ver Tareas</button>-->
                                 </div>
                            </div>
 
@@ -170,6 +179,14 @@
                 </group>
             </field>
        </record>
+
+        <!--Accion de Ventana ver Tareas
+        <record id="action_view_task" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="res_model">cv.tarea</field>
+            <field name="view_mode">kanban,form,calendar</field>
+            <field name="search_view_id" ref="csv_app.action_view_task"/>
+        </record>-->
 
         <!--Acciones de ventana tarea-->
         <record id="action_view_tarea" model="ir.actions.act_window">
