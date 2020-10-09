@@ -1,0 +1,15 @@
+<odoo>
+    <record id="ir_rule_docente_mostrar_tareas_propias" model="ir.rule">
+        <field name="name">Mostrar tareas propias</field>
+        <field name="model_id" ref="csv_app.model_cv_tarea"/>
+        <field name="domain_force">
+            [('user_id','=', user.id)]
+        </field>
+        <field name="groups" eval="[(4, ref('csv_app.res_groups_docente')), (4, ref('csv_app.res_groups_docente_consejo'))]"></field>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+</odoo>

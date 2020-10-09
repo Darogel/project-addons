@@ -1,12 +1,5 @@
 <odoo>
     <data>
-       <!--<record id="task_docente" model="ir.actions.act_window">
-            <field name="res_model">cv.tarea</field>
-            <field name="name">Tareas del Docente</field>
-            <field name="view_mode">tree,form,calendar,graph,kanban</field>
-            <field name="domain">[('user_id', '=', tarea_id)]</field>
-           <field name="search_view_id" ref="csv_app.view_tree_tarea"/>
-            <field name="context">{'user_id':tarea_id}</field>
-        </record>-->
+
     </data>
 </odoo>

@@ -6,26 +6,34 @@
             <field name="model">cv.tarea</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                    <field name="categoria_id" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
                     <sheet>
+                        <div class="oe_button_box d-flex justify-content-end" name="button_box">
+                        </div>
                         <group>
-                            <field name="name" required="1"/>
+                            <field name="name" required="1" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
                         </group>
                         <group>
                             <group>
-                                <field name="state" required="1"/>
-                                <field name="expired"/>
+                                <field name="state" required="1" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
+                                <field name="expired" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
                             </group>
                             <group>
                                 <field name="categoria_id"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                             </group>
                             <group>
-                                <field name="date_init" required="1"/>
-                                <field name="date_fin" required="1"/>
+                                <field name="date_init" required="1" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
+                                <field name="date_fin" required="1" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
                             </group>
                             <group>
                                 <field name="user_id"/>
                             </group>
                         </group>
+                        <notebook>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -54,16 +62,18 @@
         </record>
 
 
+
         <record id="view_kanban_tarea" model="ir.ui.view">
             <field name="name">view.tree.cv.tarea</field>
             <field name="model">cv.tarea</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                 <kanban  default_group_by = "categoria_id" class="o_kanban_small_column o_kanban_project_tasks" >
+                 <kanban  default_group_by = "categoria_id" class="o_kanban_small_column o_kanban_project_tasks">
                    <field name="name"/>
                    <field name="state"/>
-                   <field name="categoria_id" optional="hide"/>
+                   <field name="categoria_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
                    <field name="create_uid"/>
+                     <progressbar field="state" colors='{"hecho": "success", "pendiente": "danger", "desarrollo": "muted"}'/>
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
@@ -94,16 +104,17 @@
             <field name="type">kanban</field>
             <field name="arch" type="xml">
                  <kanban>
+
                    <field name="name"/>
                    <field name="phone"/>
                    <field name="email" optional="hide"/>
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
-                               <div class="o_kanban_image">
-                                    <img src="https://thumbs.dreamstime.com/b/icono-del-var%C3%B3n-del-usuario-ninguna-cara-43652345.jpg"
-                                         width="80"
-                                         height="80"/>
+                               <div>
+                                   <div class="o_kanban_image">
+
+
                                </div>
                                <div class="oe_kanban_details">
                                    <t class="o_kanban_record_title">
@@ -116,29 +127,32 @@
                                        <t t-esc="record.email.value"/>
                                    </div>
                                </div>
-                                <!--<div class="oe_button_box" name="button_box" style="text-align: right">
-                                   <button align="center" style="height:25px; width:100px" id="task_view" string="Ver Tareas" type="object" name="vista_tree" class="btn btn-primary">
-                                       Ver Tareas
-                                   </button>
-                               </div>-->
-                               <br/>
-                               <div align="right" class="oe_button_box" >
-                                    <button id="task_view"
-                                            string="Ver Tareas"
-                                            type="object"
-                                            name="vista_tree"
-                                            class="btn btn-primary">Ver Tareas</button>
-                                   <!--<button id="task_view"
-                                            string="Ver Tareas"
-                                            type="action"
-                                            name="action_view_task"
-                                            class="btn btn-primary">Ver Tareas</button>-->
-                                </div>
-                           </div>
+                               </div>
+                              <hr style="color: #0056b2;"/>
 
+
+                                <div align="center">
+                                    <button string="Ver Tareas" name="vista_tree" type="object" class="btn btn-primary">Ver Tareas</button>
+                                </div>
+
+
+                           </div>
                        </t>
                    </templates>
                  </kanban>
+            </field>
+        </record>
+
+
+        <record id="view_tree_tarea" model="ir.ui.view">
+            <field name="name">view.tree.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                   <field name="date_init" optional="hide"/>
+                </tree>
             </field>
         </record>
 
@@ -151,6 +165,29 @@
                     <field name="phone"/>
                    <field name="email" optional="hide"/>
                 </tree>
+            </field>
+        </record>
+
+        <!--  TAREA TAGS !
+        <record id="view_tree_tag" model="ir.ui.view">
+            <field name="name">view.tree.cv.tag</field>
+            <field name="model">cv.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>-->
+
+
+
+        <record model="ir.ui.view" id="cv_categoria_view_search">
+            <field name="name">cv.categoria.view.search</field>
+            <field name="model">cv.categoria</field>
+            <field name="arch" type="xml">
+                <search string="Stages">
+                    <field name="name"/>
+                </search>
             </field>
         </record>
 
@@ -180,23 +217,62 @@
             </field>
        </record>
 
-        <!--Accion de Ventana ver Tareas
-        <record id="action_view_task" model="ir.actions.act_window">
-            <field name="name">Tareas</field>
-            <field name="res_model">cv.tarea</field>
-            <field name="view_mode">kanban,form,calendar</field>
-            <field name="search_view_id" ref="csv_app.action_view_task"/>
-        </record>-->
 
-        <!--Acciones de ventana tarea-->
+
+        <record model="ir.ui.view" id="view_tarea_search">
+        <field name="name">cv.tarea.view.search</field>
+        <field name="model">cv.tarea</field>
+        <field name="arch" type="xml">
+            <search string="Tareas">
+                <field name="name"/>
+                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="user_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Categoria" name="group_stage_id"
+                        context="{'group_by': 'categoria_id'}"/>
+                    <filter string="Docente" name="group_user_id"
+                        context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
         <record id="action_view_tarea" model="ir.actions.act_window">
             <field name="name">Tareas</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">cv.tarea</field>
-            <field name="limit">10</field>
-            <field name="view_mode">kanban,form,calendar</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <!--<field name="search_view_id" ref="base.view_res_partner_filter"/>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a contact in your address book
+                </p><p>
+                    Odoo helps you to easily track all activities related to a customer.
+                </p>
+            </field>
         </record>
 
-        <!--ESto agrege-->
+        <record id="action_view_tarea_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="csv_app.view_kanban_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
+        <record id="action_view_tarea_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="csv_app.view_tree_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
+        <record id="action_view_tarea_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="csv_app.view_form_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
 
         <record id="action_view_usuario" model="ir.actions.act_window">
             <field name="name">Docentes</field>
@@ -219,12 +295,14 @@
             <field name="view_id" ref="csv_app.view_kanban_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
+
         <record id="action_view_docente_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="csv_app.view_tree_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
+
         <record id="action_view_docente_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
@@ -241,28 +319,47 @@
             <!--<field name="view_mode">kanban,form</field>-->
         </record>
 
-        <!--Par ver Usuario
-        <record id="action_server_mi_tarea" model="ir.actions.server">
-            <field name="name">Mis Tareas</field>
-            <field name="model_id" ref="csv_app.model_cv_tarea"/>
-            <field name="state">code</field>
-            <field name="code">action = model.mis_tareas()</field>
-        </record>-->
+         <!--Acciones de ventana tag-->
+        <record id="action_view_tag" model="ir.actions.act_window">
+            <field name="name">Etiquetas</field>
+            <field name="res_model">cv.tag</field>
+            <field name="limit">10</field>
+            <!--<field name="view_mode">kanban,form</field>-->
+        </record>
+
 
         <!--Menú-->
          <menuitem id="menu_main_csv_app"
                   name="Plan Mejoras"
                   parent=""
+                  action="csv_app.action_view_tarea"/>
+
+        <menuitem id="menu_docentes"
+                  name="Docentes"
+                  sequence = "0"
+                  groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"
+                  parent="csv_app.menu_main_csv_app"
                   action="csv_app.action_view_usuario"/>
 
         <menuitem id="menu_tarea"
                   name="Tareas"
+                  sequence = "1"
                   parent="csv_app.menu_main_csv_app"
                   action="csv_app.action_view_tarea"/>
 
+        <menuitem id="menu_configuracion"
+                  name="Configuración"
+                  groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"
+                  parent="csv_app.menu_main_csv_app"/>
+
         <menuitem id="menu_categoria"
                   name="Categoria"
-                  parent="csv_app.menu_main_csv_app"
+                  parent="csv_app.menu_configuracion"
                   action="csv_app.action_view_categoria"/>
+
+        <menuitem id="menu_tag"
+                  name="Etiquetas"
+                  parent="csv_app.menu_configuracion"
+                  action="csv_app.action_view_tag"/>
     </data>
 </odoo>
