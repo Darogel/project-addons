@@ -111,10 +111,10 @@
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
-                               <div>
-                                   <div class="o_kanban_image">
-
-
+                               <div class="o_kanban_image">
+                                   <img src="https://thumbs.dreamstime.com/b/icono-del-var%C3%B3n-del-usuario-ninguna-cara-43652345.jpg"
+                                         width="80"
+                                         height="80"/>
                                </div>
                                <div class="oe_kanban_details">
                                    <t class="o_kanban_record_title">
@@ -127,15 +127,14 @@
                                        <t t-esc="record.email.value"/>
                                    </div>
                                </div>
+                               <br/>
+                               <div align="right" class="oe_button_box" >
+                                    <button id="task_view"
+                                            string="Ver Tareas"
+                                            type="object"
+                                            name="vista_tree"
+                                            class="btn btn-primary">Ver Tareas</button>
                                </div>
-                              <hr style="color: #0056b2;"/>
-
-
-                                <div align="center">
-                                    <button string="Ver Tareas" name="vista_tree" type="object" class="btn btn-primary">Ver Tareas</button>
-                                </div>
-
-
                            </div>
                        </t>
                    </templates>
