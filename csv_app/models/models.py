@@ -7,7 +7,7 @@ class Tarea(models.Model):
     _inherit = "mail.thread"
 
     name = fields.Char(string="Tarea", required=True)
-    description = fields.Html(string="Descripción")
+    description = fields.Html(string="Descripción", default="""<p>Tarea creada por: Administrador</p>""", track_visibility="onchange")
     date_init = fields.Date(string="Fecha de Inicio", required=True)
     date_fin = fields.Date(string="Fecha Fin", required=True)
     expired = fields.Selection(selection=[("no_expired","No Expirado"),("expired","Expirado")],
@@ -15,7 +15,7 @@ class Tarea(models.Model):
                                 default="no_expired")
     state = fields.Selection(selection=[("pendiente","Pendiente"),("desarrollo","Desarrollo"),("hecho","Hecho")],
                                 string="Estado",
-                                default="pendiente", required=True)
+                                default="pendiente", required=True, track_visibility="onchange")
 
     rating = fields.Selection(selection=[("bajo", "Bajo"), ("medio", "Medio"), ("alto", "Alto")],
                              string="Valor",
@@ -23,7 +23,7 @@ class Tarea(models.Model):
 
     categoria_id = fields.Many2one("cv.categoria", string="Categoria", ondelete='restrict', required=True,
                                    default=lambda self: self.env['cv.categoria'].search([], limit=1),
-                                   group_expand='_group_expand_stage_ids')
+                                   group_expand='_group_expand_stage_ids', track_visibility="onchange")
 
     user_id = fields.Many2one("res.users", string="Docente", required=True, default=lambda self: self.env.uid)
     email = fields.Char(related="user_id.email", string="Correo Electronico")
@@ -46,6 +46,8 @@ class Tarea(models.Model):
         for tarea in lista_tareas:
             if tarea.expired == "no_expired" and tarea.date_fin < today:
                 tarea.expired = "expired"
+
+
 
 class Categoria(models.Model):
     _name = "cv.categoria"
