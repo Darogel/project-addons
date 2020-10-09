@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 class Tarea(models.Model):
     _name = "cv.tarea"
     _description = "Tareas"
+    _inherit = "mail.thread"
 
     name = fields.Char(string="Tarea", required=True)
     description = fields.Html(string="Descripción")
@@ -25,6 +26,7 @@ class Tarea(models.Model):
                                    group_expand='_group_expand_stage_ids')
 
     user_id = fields.Many2one("res.users", string="Docente", required=True, default=lambda self: self.env.uid)
+    email = fields.Char(related="user_id.email", string="Correo Electronico")
 
     tag_ids = fields.Many2many(
         'cv.tag', 'cv_tag_rel',
@@ -83,6 +85,20 @@ class ResUser(models.Model):
     tarea_ids = fields.One2many("cv.tarea", "user_id")
     total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente")
 
+    #@api.constrains("pm_pedagogia")
+    #def _check_amount(self):
+        #if self.pm_pedagogia < 0 and self.pm_pedagogia > 50:
+            #raise ValidationError("El calificacion de Pedagodia deber ser entre 0 y 50")
+
+    #@api.constrains("pm_etico")
+    #def _check_amount(self):
+        #if self.pm_etico < 0 and self.pm_etico > 20:
+            #raise ValidationError("El calificacion de Etico deber ser entre 0 y 20")
+
+    #@api.constrains("pm_academico")
+    #def _check_amount(self):
+        #if self.pm_academico < 0 and self.pm_academico > 30:
+            #raise ValidationError("El calificacion de Academico deber ser entre 0 y 30")
 
     #@api.depends("user_id")
     def _compute_valoracion_docente(self):

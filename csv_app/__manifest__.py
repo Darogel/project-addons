@@ -13,7 +13,7 @@
     "category": "Ventas",
 
     "version": "1.0",
-    "depends": ["base"],
+    "depends": ["base", "mail"],
     "data": [
         "data/quotation_expiration_cron.xml",
         "security/res_groups.xml",

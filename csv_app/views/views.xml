@@ -21,7 +21,7 @@
                                 <field name="expired" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
                             </group>
                             <group>
-                                <field name="categoria_id"/>
+                                <field name="categoria_id" options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"/>
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                             </group>
                             <group>
@@ -30,11 +30,19 @@
                             </group>
                             <group>
                                 <field name="user_id" />
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <field name="description"  required="1" groups = "csv_app.res_groups_docente"/>
                             </group>
                         </group>
+
                         <notebook>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
                 </form>
             </field>
         </record>
@@ -81,6 +89,7 @@
                    <field name="state"/>
                    <field name="categoria_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
                    <field name="create_uid"/>
+                     <field name="user_id" />
                      <progressbar field="state" colors='{"hecho": "success", "pendiente": "danger", "desarrollo": "muted"}'/>
                    <templates>
                        <t t-name="kanban-box">
@@ -98,6 +107,9 @@
                                    <div t-if="record.categoria_id.value">
                                        <t t-esc="record.categoria_id.value"/>
                                    </div>
+                                   <div t-if="record.user_id.value">
+                                       <t t-esc="record.user_id.value"/>
+                                   </div>
                                </div>
                            </div>
                        </t>
@@ -111,12 +123,11 @@
             <field name="model">res.users</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                 <kanban>
-
+                 <kanban> <!--decoration-success="total_val == 100" decoration-danger="total_val == 0">-->
                    <field name="name"/>
                    <field name="phone"/>
                    <field name="email" optional="hide"/>
-                     <field name="us_cat"/>
+                   <!--<field name="us_cat" invisible="1"/>-->
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
@@ -135,9 +146,9 @@
                                    <div t-if="record.email.value">
                                        <t t-esc="record.email.value"/>
                                    </div>
-                                   <div t-if="record.us_cat.value">
+                                   <!-->div t-if="record.us_cat.value">
                                        <t t-esc="record.us_cat.value"/>
-                                   </div>
+                                   </div>-->
                                </div>
                                <br/>
                                <div align="right" class="oe_button_box" >
