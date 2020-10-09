@@ -29,7 +29,7 @@
                                 <field name="date_fin" required="1" groups = "csv_app.res_groups_administrador,csv_app.res_groups_docente_consejo"/>
                             </group>
                             <group>
-                                <field name="user_id"/>
+                                <field name="user_id" />
                             </group>
                         </group>
                         <notebook>
@@ -55,6 +55,14 @@
                             <group>
                                 <field name="email"/>
                             </group>
+                        </group>
+                        <group>
+                            <field name="pm_pedagogia"/>
+                            <field name="pm_etico"/>
+                            <field name="pm_academico"/>
+                        </group>
+                        <group>
+                             <field name="us_cat" />
                         </group>
                     </sheet>
                 </form>
@@ -108,6 +116,7 @@
                    <field name="name"/>
                    <field name="phone"/>
                    <field name="email" optional="hide"/>
+                     <field name="us_cat"/>
                    <templates>
                        <t t-name="kanban-box">
                            <div t-attf-class="oe_kanban_global_click">
@@ -125,6 +134,9 @@
                                    </div>
                                    <div t-if="record.email.value">
                                        <t t-esc="record.email.value"/>
+                                   </div>
+                                   <div t-if="record.us_cat.value">
+                                       <t t-esc="record.us_cat.value"/>
                                    </div>
                                </div>
                                <br/>
@@ -178,7 +190,42 @@
             </field>
         </record>-->
 
+         <!--Vista Para La Busqueda (Filtros - Agrupacion)
+        <record id="view_search_docentes" model="ir.ui.view">
+            <field name="name">view.search.sa.movimiento</field>
+            <field name="model">sa.movimiento</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="notas"/>
+                    <field name="category_id"/>
+                    <field name="tag_ids"/>
+                    <filter name="filter_tipo_ingresos"
+                            string="Ingresos"
+                            domain="[('type_mov','=','ingreso')]"/>
+                    <filter name="filter_tipo_gatos"
+                            string="Gastos"
+                            domain="[('type_mov','=','gasto')]"/>
+                    <separator/>
+                    <filter name="filter_today"
+                            string="Hoy"
+                            domain="[('date','&gt;=',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                            ('date','&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                    <filter name="filter_this_week"
+                            string="Ultimos 7 dias"
+                            domain="[('date','&lt;=',context_today().strftime('%Y-%m-%d 23:59:59')),
+                            ('date','&gt;=',(context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
 
+                    <filter name="group_type_move"
+                            string="Tipo"
+                            context="{'group_by':'type_mov'}"/>
+                    <separator/>
+                    <filter name="group_date"
+                            string="Fecha"
+                            context="{'group_by':'date'}"/>
+                </search>
+            </field>
+        </record>-->
 
         <record model="ir.ui.view" id="cv_categoria_view_search">
             <field name="name">cv.categoria.view.search</field>
@@ -244,10 +291,9 @@
             <!--<field name="search_view_id" ref="base.view_res_partner_filter"/>-->
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-                    Create a contact in your address book
-                </p><p>
-                    Odoo helps you to easily track all activities related to a customer.
+                    Crear Nueva Tarea para empezar a Gestionar sus tareas
                 </p>
+                <p></p>
             </field>
         </record>
 

@@ -45,9 +45,6 @@ class Tarea(models.Model):
             if tarea.expired == "no_expired" and tarea.date_fin < today:
                 tarea.expired = "expired"
 
-
-
-
 class Categoria(models.Model):
     _name = "cv.categoria"
     _description = "Categoria"
@@ -73,12 +70,34 @@ class ResUser(models.Model):
 
     _inherit = "res.users"
 
+    us_cat = fields.Selection(
+        selection=[("insatisfactorio", "Insatisfactorio"), ("poco_satisfactorio", "Poco Satisfactorio")
+                   , ("satisfactorio", "Satisfactorio"), ("destacado", "Destacado")],
+        string="Valoracion Cuantitativa",
+        required=True, compute="_compute_valoracion_docente")
     pm_pedagogia = fields.Float(string="Valor Pedagogía", required=True)
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
 
 
     tarea_ids = fields.One2many("cv.tarea", "user_id")
+    total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente")
+
+
+    #@api.depends("user_id")
+    def _compute_valoracion_docente(self):
+        for record in self:
+            record.total_val = record.pm_academico + record.pm_etico + record.pm_pedagogia
+        if record.total_val >= 0 and record.total_val <= 40:
+            record.us_cat = "insatisfactorio"
+        elif record.total_val > 40 and record.total_val <= 60:
+            record.us_cat = "poco_satisfactorio"
+        elif record.total_val > 60 and record.total_val <= 80:
+            record.us_cat = "satisfactorio"
+        elif record.total_val > 80 and record.total_val <= 100:
+            record.us_cat = "destacado"
+        elif record.total_val < 0 or record.total_val > 100:
+            raise ValidationError("El valor esta fuera de rango (0-100)")
 
     def vista_tree(self):
         return {
@@ -89,4 +108,3 @@ class ResUser(models.Model):
             "target": "self",
             "domain": [["user_id", "=", self.id]]
         }
-
