@@ -29,6 +29,26 @@
         <field name="perm_read" eval="1"/>
     </record>
 
+    <record id="model_access_evidencia" model="ir.model.access">
+        <field name="name">model.access.tag</field>
+        <field name="model_id" ref="csv_app.model_cv_evidencia"/>
+        <field name="group_id" ref="base.group_system"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+    <record id="model_access_evidencia_docente" model="ir.model.access">
+        <field name="name">model.access.evidencia.docente</field>
+        <field name="model_id" ref="csv_app.model_cv_evidencia"/>
+        <field name="group_id" ref="csv_app.res_groups_docente"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
      <!--Acceso para usuario Docente-->
 
     <record id="model_access_tarea_docente" model="ir.model.access">

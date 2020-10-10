@@ -3,4 +3,4 @@
 3.  Leer CSV
 4.  Roles - Grupos
 5.  Reporte
-6.  Regla para ver solo Tareas descripcion Admin - DOcente
+6.  Regla para ver solo Tareas descripcion Admin - DOcente (Solucionado con la creacion de la tabla Evidencia)

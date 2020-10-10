@@ -28,6 +28,8 @@ class Tarea(models.Model):
     user_id = fields.Many2one("res.users", string="Docente", required=True, default=lambda self: self.env.uid)
     email = fields.Char(related="user_id.email", string="Correo Electronico")
 
+    evicencia_id = fields.One2many("cv.evidencia", "tareas_ids")
+
     tag_ids = fields.Many2many(
         'cv.tag', 'cv_tag_rel',
         'tag_id', 'tarea_id', string='Tags')
@@ -58,6 +60,18 @@ class Categoria(models.Model):
     description = fields.Html(string="Descripcion")
     sequence = fields.Integer()
 
+class Evidencia(models.Model):
+    _name = "cv.evidencia"
+    _description = "Evicencias"
+
+    name = fields.Char(required=True, translate=True)
+    evidencia = fields.Html(string="Evidencias")
+
+    tareas_ids = fields.Many2one("cv.tarea", string="Tareas")
+
+    _sql_constraints = [
+            ('name_uniq', 'unique (name)', "Tag name already exists !"),
+    ]
 
 class Tag(models.Model):
     _name = "cv.tag"
@@ -77,8 +91,7 @@ class ResUser(models.Model):
     us_cat = fields.Selection(
         selection=[("insatisfactorio", "Insatisfactorio"), ("poco_satisfactorio", "Poco Satisfactorio")
                    , ("satisfactorio", "Satisfactorio"), ("destacado", "Destacado")],
-        string="Valoracion Cuantitativa",
-        required=True, compute="_compute_valoracion_docente")
+        string="Valoracion Cuantitativa", compute="_compute_valoracion_docente")
     pm_pedagogia = fields.Float(string="Valor Pedagogía", required=True)
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
@@ -105,17 +118,21 @@ class ResUser(models.Model):
     #@api.depends("user_id")
     def _compute_valoracion_docente(self):
         for record in self:
-            record.total_val = record.pm_academico + record.pm_etico + record.pm_pedagogia
-        if record.total_val >= 0 and record.total_val <= 40:
-            record.us_cat = "insatisfactorio"
-        elif record.total_val > 40 and record.total_val <= 60:
-            record.us_cat = "poco_satisfactorio"
-        elif record.total_val > 60 and record.total_val <= 80:
-            record.us_cat = "satisfactorio"
-        elif record.total_val > 80 and record.total_val <= 100:
-            record.us_cat = "destacado"
-        elif record.total_val < 0 or record.total_val > 100:
+            total_valor = record.pm_academico + record.pm_etico + record.pm_pedagogia
+        if total_valor >= 0 or total_valor <= 100:
+            record.total_valor = total_valor
+            if total_valor >= 0 and total_valor <= 40:
+                record.us_cat = "insatisfactorio"
+            elif total_valor > 40 and total_valor <= 60:
+                record.us_cat = "poco_satisfactorio"
+            elif total_valor > 60 and total_valor <= 80:
+                record.us_cat = "satisfactorio"
+            elif total_valor > 80 and total_valor <= 100:
+                record.us_cat = "destacado"
+        else:
             raise ValidationError("El valor esta fuera de rango (0-100)")
+
+
 
     def vista_tree(self):
         return {
