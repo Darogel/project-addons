@@ -1,5 +1,5 @@
-1.  Error en Valores negativos de valoracion Docente
-2.  presentar valoracion docente en vista Kanban Docente
+1.  (Listo) Error en Valores negativos de valoracion Docente
+2.  (Listo) presentar valoracion docente en vista Kanban Docente
 3.  Leer CSV
 4.  Roles - Grupos
 5.  Reporte

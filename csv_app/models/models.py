@@ -121,17 +121,37 @@ class ResUser(models.Model):
             total_valor = record.pm_academico + record.pm_etico + record.pm_pedagogia
         if total_valor >= 0 or total_valor <= 100:
             record.total_valor = total_valor
-            if total_valor >= 0 and total_valor <= 40:
-                record.us_cat = "insatisfactorio"
-            elif total_valor > 40 and total_valor <= 60:
-                record.us_cat = "poco_satisfactorio"
-            elif total_valor > 60 and total_valor <= 80:
-                record.us_cat = "satisfactorio"
-            elif total_valor > 80 and total_valor <= 100:
-                record.us_cat = "destacado"
+        else:
+            raise ValidationError("El valor esta fuera de rango (0-100)")
+        if total_valor >= 0 and total_valor <= 40:
+            record.us_cat = "insatisfactorio"
+        elif total_valor > 40 and total_valor <= 60:
+            record.us_cat = "poco_satisfactorio"
+        elif total_valor > 60 and total_valor <= 80:
+            record.us_cat = "satisfactorio"
+        elif total_valor > 80 and total_valor <= 100:
+            record.us_cat = "destacado"
         else:
             raise ValidationError("El valor esta fuera de rango (0-100)")
 
+
+    @api.constrains('pm_etico')
+    def _check_pm_etico(self):
+        for record in self:
+            if record.pm_etico < 0:
+                raise ValidationError("Valor ético no puede ser Negativo")
+
+    @api.constrains('pm_academico')
+    def _check_pm_academico(self):
+        for record in self:
+            if record.pm_academico < 0:
+                raise ValidationError("Valor académico no puede ser Negativo")
+
+    @api.constrains('pm_pedagogia')
+    def _check_pm_pedagogia(self):
+        for record in self:
+            if record.pm_pedagogia < 0:
+                raise ValidationError("Valor pedagogía no puede ser Negativo")
 
 
     def vista_tree(self):
