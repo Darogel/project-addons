@@ -127,7 +127,7 @@
                  <kanban> <!--decoration-success="total_val == 100" decoration-danger="total_val == 0">-->
                    <field name="name"/>
                    <field name="phone"/>
-                   <field name="email" optional="hide"/>
+                   <field name="us_cat" optional="hide"/>
                    <!--<field name="us_cat" invisible="1"/>-->
                    <templates>
                        <t t-name="kanban-box">
@@ -144,8 +144,8 @@
                                    <div t-if="record.phone.value">
                                        <t t-esc="record.phone.value"/>
                                    </div>
-                                   <div t-if="record.email.value">
-                                       <t t-esc="record.email.value"/>
+                                   <div t-if="record.us_cat.value">
+                                       <t t-esc="record.us_cat.value"/>
                                    </div>
                                    <!--<div t-if="record.us_cat.value">
                                        <t t-esc="record.us_cat.value"/>

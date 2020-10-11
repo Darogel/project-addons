@@ -91,14 +91,14 @@ class ResUser(models.Model):
     us_cat = fields.Selection(
         selection=[("insatisfactorio", "Insatisfactorio"), ("poco_satisfactorio", "Poco Satisfactorio")
                    , ("satisfactorio", "Satisfactorio"), ("destacado", "Destacado")],
-        string="Valoracion Cuantitativa", compute="_compute_valoracion_docente")
+        string="Valoracion Cuantitativa", store=True, compute="_compute_valoracion_docente")
     pm_pedagogia = fields.Float(string="Valor Pedagogía", required=True)
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
 
 
     tarea_ids = fields.One2many("cv.tarea", "user_id")
-    total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente")
+    total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente", store=True)
 
     #@api.constrains("pm_pedagogia")
     #def _check_amount(self):
@@ -115,7 +115,7 @@ class ResUser(models.Model):
         #if self.pm_academico < 0 and self.pm_academico > 30:
             #raise ValidationError("El calificacion de Academico deber ser entre 0 y 30")
 
-    #@api.depends("user_id")
+    @api.depends('total_val', 'pm_academico', 'pm_etico', 'pm_pedagogia', 'us_cat')
     def _compute_valoracion_docente(self):
         for record in self:
             total_valor = record.pm_academico + record.pm_etico + record.pm_pedagogia
