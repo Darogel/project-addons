@@ -249,6 +249,8 @@
             </field>
         </record>
 
+
+
         <!--Vista de calendario-->
         <record id="view_calendar_tarea" model="ir.ui.view">
             <field name="name">view.calendar.cv.tarea</field>
@@ -278,22 +280,40 @@
 
 
         <record model="ir.ui.view" id="view_tarea_search">
-        <field name="name">cv.tarea.view.search</field>
-        <field name="model">cv.tarea</field>
-        <field name="arch" type="xml">
-            <search string="Tareas">
-                <field name="name"/>
-                <field name="tag_ids" widget="many2many_tags"/>
-                <field name="user_id"/>
-                <group expand="0" string="Group By">
-                    <filter string="Categoria" name="group_stage_id"
+            <field name="name">cv.tarea.view.search</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <search string="Tareas">
+                    <field name="name"/>
+                    <field name="tag_ids" widget="many2many_tags"/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Categorias" name="group_stage_id"
                         context="{'group_by': 'categoria_id'}"/>
-                    <filter string="Docente" name="group_user_id"
+                        <filter string="Docentes" name="group_user_id"
                         context="{'group_by': 'user_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Filtro por valoración docente-->
+        <record model="ir.ui.view" id="view_docente_search_valoracion">
+            <field name="name">res.users.view.search</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <search string="Docentes">
+                    <field name="name"/>
+                    <field name="us_cat"/>
+                    <group string="Group By">
+                        <filter string="Valoracion"
+                                name="group_valoracion_docente"
+                                context="{'group_by':'us_cat'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
 
         <record id="action_view_tarea" model="ir.actions.act_window">
             <field name="name">Tareas</field>
@@ -336,7 +356,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.users</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="search_view_id" ref="csv_app.view_docente_search_valoracion"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a contact in your address book
