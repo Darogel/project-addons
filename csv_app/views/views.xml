@@ -60,9 +60,12 @@
                         <group>
                             <group>
                                 <field name="phone" required="1"/>
+                                <field name="password" value="docente2020"/>
+                                <field name="login"/>
                             </group>
                             <group>
                                 <field name="email"/>
+                                <field name="groups_id"/>
                             </group>
                         </group>
                         <group>
