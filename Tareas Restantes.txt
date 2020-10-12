@@ -1,5 +1,5 @@
-1.  Error en Valores negativos de valoracion Docente
-2.  presentar valoracion docente en vista Kanban Docente
+1.  Error en Valores negativos de valoracion Docente (verificar metodo _compute_valoracion_docente posible fuente de error)
+2.  presentar valoracion docente en vista Kanban Docente (verificar metodo _compute_valoracion_docente posible fuente de error)
 3.  Leer CSV
 4.  Roles - Grupos
 5.  Reporte

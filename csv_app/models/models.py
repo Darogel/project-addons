@@ -91,46 +91,14 @@ class ResUser(models.Model):
     us_cat = fields.Selection(
         selection=[("insatisfactorio", "Insatisfactorio"), ("poco_satisfactorio", "Poco Satisfactorio")
                    , ("satisfactorio", "Satisfactorio"), ("destacado", "Destacado")],
-        string="Valoracion Cuantitativa", compute="_compute_valoracion_docente")
+        string="Valoracion Cuantitativa" )
     pm_pedagogia = fields.Float(string="Valor Pedagogía", required=True)
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
 
 
     tarea_ids = fields.One2many("cv.tarea", "user_id")
-    total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente")
-
-    #@api.constrains("pm_pedagogia")
-    #def _check_amount(self):
-        #if self.pm_pedagogia < 0 and self.pm_pedagogia > 50:
-            #raise ValidationError("El calificacion de Pedagodia deber ser entre 0 y 50")
-
-    #@api.constrains("pm_etico")
-    #def _check_amount(self):
-        #if self.pm_etico < 0 and self.pm_etico > 20:
-            #raise ValidationError("El calificacion de Etico deber ser entre 0 y 20")
-
-    #@api.constrains("pm_academico")
-    #def _check_amount(self):
-        #if self.pm_academico < 0 and self.pm_academico > 30:
-            #raise ValidationError("El calificacion de Academico deber ser entre 0 y 30")
-
-    #@api.depends("user_id")
-    def _compute_valoracion_docente(self):
-        for record in self:
-            total_valor = record.pm_academico + record.pm_etico + record.pm_pedagogia
-        if total_valor >= 0 or total_valor <= 100:
-            record.total_valor = total_valor
-            if total_valor >= 0 and total_valor <= 40:
-                record.us_cat = "insatisfactorio"
-            elif total_valor > 40 and total_valor <= 60:
-                record.us_cat = "poco_satisfactorio"
-            elif total_valor > 60 and total_valor <= 80:
-                record.us_cat = "satisfactorio"
-            elif total_valor > 80 and total_valor <= 100:
-                record.us_cat = "destacado"
-        else:
-            raise ValidationError("El valor esta fuera de rango (0-100)")
+    total_val = fields.Float("Total Valoracion")
 
 
 
