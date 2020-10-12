@@ -135,24 +135,6 @@ class ResUser(models.Model):
             raise ValidationError("El valor esta fuera de rango (0-100)")
 
 
-    @api.constrains('pm_etico')
-    def _check_pm_etico(self):
-        for record in self:
-            if record.pm_etico < 0:
-                raise ValidationError("Valor ético no puede ser Negativo")
-
-    @api.constrains('pm_academico')
-    def _check_pm_academico(self):
-        for record in self:
-            if record.pm_academico < 0:
-                raise ValidationError("Valor académico no puede ser Negativo")
-
-    @api.constrains('pm_pedagogia')
-    def _check_pm_pedagogia(self):
-        for record in self:
-            if record.pm_pedagogia < 0:
-                raise ValidationError("Valor pedagogía no puede ser Negativo")
-
 
     def vista_tree(self):
         return {
