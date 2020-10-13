@@ -67,13 +67,13 @@ class ResUsers(models.Model):
                                 'pm_etico': line.get('pm_etico'),
                                 'pm_academico': line.get('pm_academico')
                             }
-                            state = state_obj.search(
-                                [('name', '=', line.get('state'))])
-                            country = country_obj.search(
-                                [('name', '=', line.get('country'))])
-                            user_vals['state_id'] = state.id or ''
-                            user_vals[
-                                'country_id'] = country.id or ''
+                            #state = state_obj.search(
+                                #[('name', '=', line.get('state'))])
+                            #country = country_obj.search(
+                                #[('name', '=', line.get('country'))])
+                            #user_vals['state_id'] = state.id or ''
+                            #user_vals[
+                                #'country_id'] = country.id or ''
 
                             if part_master.operation == 'create':
                                 user_obj.create(user_vals)

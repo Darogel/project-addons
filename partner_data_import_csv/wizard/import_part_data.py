@@ -45,7 +45,7 @@ class ImportPartner(models.TransientModel):
     def import_data_through_cron(self):
         self.ensure_one()
         cron_obj = self.env['ir.cron']
-        now_time = datetime.now() + timedelta(seconds=30)
+        now_time = datetime.now() + timedelta(seconds=5)
         part_master = self.env['import.part.master'].create({
             'file': self.file,
             'filename': self.name,

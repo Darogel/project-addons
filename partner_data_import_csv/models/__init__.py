@@ -24,4 +24,4 @@
 from . import import_part_history
 from . import import_part_master
 from . import res_users
-from . import res_partner
+#from . import res_partner
