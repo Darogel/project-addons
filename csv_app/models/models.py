@@ -147,3 +147,4 @@ class ResUser(models.Model):
             "target": "self",
             "domain": [["user_id", "=", self.id]]
         }
+

@@ -63,7 +63,7 @@ class ImportPartner(models.TransientModel):
                               DEFAULT_SERVER_DATETIME_FORMAT)).astimezone(local),
             DEFAULT_SERVER_DATETIME_FORMAT)
         order_model = self.env['ir.model'].search(
-            [('model', '=', 'res.partner')])
+            [('model', '=', 'res.users')])
         cron_data = {
             'name': "Import Partners" + ' - ' + user_time_zone,
             'code': 'model.import_data(%s)' % part_master.id,
