@@ -6,6 +6,6 @@
 6.  Agrupar por Grupos en vistas    (Bajo)
 7.  Hacer filtros y agrupacion en Vistas    (Bajo)
 8.  Reingenieria del modulo partner_data_import_csv a modulo csv_app de Importar    (Alta)
-9.  Reporte (Primordial)
+9.  (Listo) Reporte (Primordial)
 10.  Controladores   (Alta)
 
