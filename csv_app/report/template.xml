@@ -1,0 +1,53 @@
+<odoo>
+    <template id="csv_app.report_detalle_tarea">
+        <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="obj">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h1 align="center"><t t-esc="obj.name"/></h1>
+                            <br/>
+                            <span><b>Objetivo:</b> <t t-esc="obj.objetivo"/></span>
+                            <br/>
+                            <span><b>Conclusiones:</b> <span t-raw="obj.conclusion"/></span>
+                            <span t-esc="fecha"/>
+                            <h2 align="center">Detalle de las Tarea Realizadas por docentes de la CIS-UNL</h2>
+                            <t t-foreach="request.env['res.users'].search([])" t-as="doc1">
+                                <h3 align="center">Docente <span t-esc="doc1.name"/> </h3>
+                                <t t-if="doc1.count_tarea == 0">
+                                    <span>No existen Tareas que Mostrar :)</span>
+                                        <!--<div style="width:20px;height:20px;background-color:green"/>-->
+                                </t>
+                                <t t-foreach="request.env['cv.tarea'].search([('user_id', '=', doc1.id)])" t-as="doc">
+                                    <h5><b>Usuario:</b> <span t-field="doc.user_id"/> <!--<<span t-esc="doc.tag_ids"/>--></h5>
+                                    <br/>
+                                    <span><b>Titulo:</b> <t t-esc="doc.name"></t></span>
+                                    <br/>
+                                    <span><b>Descripcion:</b> <span t-raw="doc.description"></span></span>
+                                    <br/>
+                                    <span><b>Estado:</b> <span t-field="doc.state"/> <!--<span t-esc="doc.type_mov"/>--></span>
+                                    <!--<t t-if="doc.type_mov == 'ingreso'">
+                                        <div style="width:20px;height:20px;background-color:green"/>
+                                    </t>-->
+                                    <!--<br/>
+                                    <t t-if="doc.type_mov == 'gasto'">
+                                        <div style="width:20px;height:20px;background-color:red"/>
+                                    </t>-->
+                                    <br/>
+                                    <span><b>Fecha Inicio:</b> <span t-field="doc.date_init"/></span>
+                                    <br/>
+                                    <span><b>Fecha Fin:</b> <span t-field="doc.date_fin"/></span>
+                                    <br/>
+                                    <span><b>Categoria:</b> <span t-field="doc.categoria_id"/> <!--<<span t-esc="doc.category_id"/>--></span>
+                                    <br/>
+                                    <span><b>Etiquetas:</b> <span t-field="doc.tag_ids"/> <!--<<span t-esc="doc.tag_ids"/>--></span>
+                                    <br/>
+                                    <br/>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+
+    </template>
+</odoo>

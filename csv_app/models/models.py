@@ -1,5 +1,6 @@
 from odoo import fields, models, api, SUPERUSER_ID
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class Tarea(models.Model):
     _name = "cv.tarea"
@@ -20,6 +21,7 @@ class Tarea(models.Model):
     rating = fields.Selection(selection=[("bajo", "Bajo"), ("medio", "Medio"), ("alto", "Alto")],
                              string="Valor",
                              default="bajo", required=True)
+
 
     categoria_id = fields.Many2one("cv.categoria", string="Categoria", ondelete='restrict', required=True,
                                    default=lambda self: self.env['cv.categoria'].search([], limit=1),
@@ -97,9 +99,17 @@ class ResUser(models.Model):
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
 
-
+    count_tarea = fields.Float(string="Contador", compute="_contador_tareas", store=True)
     tarea_ids = fields.One2many("cv.tarea", "user_id")
     total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente", store=True)
+
+    @api.depends("tarea_ids")
+    def _contador_tareas(self):
+        for record in self:
+            mes = datetime.now().year
+            movs = record.tarea_ids.filtered(
+                lambda r: r.create_date.year == mes)
+            record.count_tarea = len(movs)
 
     @api.constrains('pm_academico')
     def _check_pm_academico(self):
@@ -148,3 +158,11 @@ class ResUser(models.Model):
             "domain": [["user_id", "=", self.id]]
         }
 
+
+class Informe(models.Model):
+    _name = "cv.informe"
+    _description = "Informe"
+
+    name = fields.Char(required=True, translate=True)
+    objetivo = fields.Char(string="Objetivos")
+    conclusion = fields.Html(string="Conclusion")

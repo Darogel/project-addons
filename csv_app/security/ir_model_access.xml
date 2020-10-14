@@ -29,6 +29,16 @@
         <field name="perm_read" eval="1"/>
     </record>
 
+    <record id="model_access_informe" model="ir.model.access">
+        <field name="name">model.access.informe</field>
+        <field name="model_id" ref="csv_app.model_cv_informe"/>
+        <field name="group_id" ref="base.group_system"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
     <record id="model_access_evidencia" model="ir.model.access">
         <field name="name">model.access.tag</field>
         <field name="model_id" ref="csv_app.model_cv_evidencia"/>

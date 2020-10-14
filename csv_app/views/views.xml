@@ -130,6 +130,7 @@
                  <kanban> <!--decoration-success="total_val == 100" decoration-danger="total_val == 0">-->
                    <field name="name"/>
                    <field name="phone"/>
+                     <field name="count_tarea"/>
                    <field name="us_cat" optional="hide"/>
                    <!--<field name="us_cat" invisible="1"/>-->
                    <templates>
@@ -146,6 +147,9 @@
                                    </t>
                                    <div t-if="record.phone.value">
                                        <t t-esc="record.phone.value"/>
+                                   </div>
+                                   <div t-if="record.count_tarea.value">
+                                       <t t-esc="record.count_tarea.value"/>
                                    </div>
                                    <div t-if="record.us_cat.value">
                                        <t t-esc="record.us_cat.value"/>
@@ -177,6 +181,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="state"/>
+
                    <field name="date_init" optional="hide"/>
                 </tree>
             </field>
@@ -189,6 +194,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="phone"/>
+                    <field name="count_tarea"/>
                    <field name="email" optional="hide"/>
                 </tree>
             </field>
@@ -407,6 +413,11 @@
             <!--<field name="view_mode">kanban,form</field>-->
         </record>
 
+        <record id="action_view_informe" model="ir.actions.act_window">
+            <field name="name">Informe</field>
+            <field name="res_model">cv.informe</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
         <!--Menú-->
          <menuitem id="menu_main_csv_app"
@@ -441,5 +452,10 @@
                   name="Etiquetas"
                   parent="csv_app.menu_configuracion"
                   action="csv_app.action_view_tag"/>
+
+        <menuitem id="menu_informe"
+                  name="Informe"
+                  parent="csv_app.menu_configuracion"
+                  action="csv_app.action_view_informe"/>
     </data>
 </odoo>
