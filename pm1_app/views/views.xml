@@ -164,6 +164,55 @@
                                             string="Ver Tareas"
                                             type="object"
                                             name="vista_tree"
+                                            class="btn btn-primary">Ver Plan Actividades</button>
+                               </div>
+                           </div>
+                       </t>
+                   </templates>
+                 </kanban>
+            </field>
+        </record>
+
+        <record id="view_kanban_informe" model="ir.ui.view">
+            <field name="name">view.kanban.cv.informe</field>
+            <field name="model">cv.informe</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                 <kanban> <!--decoration-success="total_val == 100" decoration-danger="total_val == 0">-->
+                   <field name="name"/>
+                   <field name="date_init"/>
+                     <field name="date_fin"/>
+                     <!--<field name="count_tarea"/>-->
+
+                   <templates>
+                       <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_global_click">
+                               <div class="o_kanban_image">
+                                   <img src="https://thumbs.dreamstime.com/b/icono-del-var%C3%B3n-del-usuario-ninguna-cara-43652345.jpg"
+                                         width="80"
+                                         height="80"/>
+                               </div>
+                               <div class="oe_kanban_details">
+                                   <t class="o_kanban_record_title">
+                                       <strong t-esc="record.name.value"/>
+                                   </t>
+                                   <div t-if="record.date_init.value">
+                                       <t t-esc="record.date_init.value"/>
+                                   </div>
+
+                                   <div t-if="record.date_fin.value">
+                                       <t t-esc="record.date_fin.value"/>
+                                   </div>
+                                      <!--<div t-if="record.us_cat.value">
+                                       <t t-esc="record.us_cat.value"/>
+                                   </div>-->
+                               </div>
+                               <br/>
+                               <div align="right" class="oe_button_box" >
+                                    <button id="task_view"
+                                            string="Ver Tareas"
+                                            type="object"
+                                            name="vista_tree_tareas"
                                             class="btn btn-primary">Ver Tareas</button>
                                </div>
                            </div>
@@ -415,6 +464,9 @@
             <field name="view_id" ref="pm1_app.view_form_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
+
+
+
 
 
         <!--Acciones de ventana categoria-->

@@ -111,6 +111,8 @@ class ResUser(models.Model):
     tarea_ids = fields.One2many("cv.tarea", "user_id")
     total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente", store=True)
 
+    informe_id = fields.One2many("cv.informe", "user_ids")
+
     @api.depends("tarea_ids")
     def _contador_tareas(self):
 
@@ -160,11 +162,11 @@ class ResUser(models.Model):
     def vista_tree(self):
         return {
             "type": "ir.actions.act_window",
-            "name": "Tareas",
-            "res_model": "cv.tarea",
-            "views": [(False, "kanban"),(False, "form"),(False, "tree")],
-            "target": "self",
-            "domain": [["user_id", "=", self.id]]
+            "name": "Plan Actividades",
+            "res_model": "cv.informe",
+            "docente": self.id,
+            "views": [(False, "kanban"),(False, "tree")],
+            "target": "self"
         }
 
 
@@ -173,10 +175,14 @@ class Informe(models.Model):
     _description = "Informe"
 
     name = fields.Char(required=True, translate=True)
+    date_init = fields.Date(string="Fecha de Inicio", required=True)
+    date_fin = fields.Date(string="Fecha Fin", required=True)
     objetivo = fields.Char(string="Objetivos")
     conclusion = fields.Html(string="Conclusion")
 
     tarea_ids = fields.One2many("cv.tarea", "informe_id")
+
+    user_ids = fields.Many2one("res.users", string="Docente")
 
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "Nombre name already exists !"),
@@ -194,8 +200,11 @@ class Informe(models.Model):
         print(len(lista_docentes))
         print(len(lista_tareas))
         for tarea in lista_tareas:
+            print(tarea.informe_id.id)
+            print(active_ids[0])
             for docente in lista_docentes:
-                if active_ids == tarea.informe_id:
+                if int(active_ids[0]) == int(tarea.informe_id):
+                    print("Entro")
                     if docente.name != "Administrator":
                         self.env["cv.tarea"].create({"name": tarea.name, "date_init": tarea.date_init,
                                                  "date_fin": tarea.date_fin, "state": tarea.state,
@@ -205,6 +214,18 @@ class Informe(models.Model):
                         print("Admin")
                     # print(tarea.id)
                     # print(tarea.name)
+                else:
+                    print("No Entro")
+    
+    def vista_tree_tareas(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Tareas",
+            "res_model": "cv.tarea",
+            "views": [(False, "kanban"),(False, "form"),(False, "tree")],
+            "target": "self",
+            "domain": [["informe_id", "=", self.id]]
+        }
 
 
 
