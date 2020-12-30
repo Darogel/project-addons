@@ -1,4 +1,4 @@
-from pip._vendor.six import print_
+from logging import info
 
 from odoo import fields, models, api, SUPERUSER_ID
 from odoo.exceptions import ValidationError
@@ -166,7 +166,8 @@ class ResUser(models.Model):
             "res_model": "cv.informe",
             "docente": self.id,
             "views": [(False, "kanban"),(False, "tree")],
-            "target": "self"
+            "target": "self",
+            "context": {"id_def": self.id}
         }
 
 
@@ -179,6 +180,8 @@ class Informe(models.Model):
     date_fin = fields.Date(string="Fecha Fin", required=True)
     objetivo = fields.Char(string="Objetivos")
     conclusion = fields.Html(string="Conclusion")
+
+    estado_Inicializar = fields.Boolean(default=False)
 
     tarea_ids = fields.One2many("cv.tarea", "informe_id")
 
@@ -194,7 +197,8 @@ class Informe(models.Model):
         print(active_ids)
         lista_tareas = self.env["cv.tarea"].search([])
         lista_docentes = self.env["res.users"].search([])
-        informe = self.env["cv.informe"].search([])
+
+
 
 
         print(len(lista_docentes))
@@ -209,22 +213,28 @@ class Informe(models.Model):
                         self.env["cv.tarea"].create({"name": tarea.name, "date_init": tarea.date_init,
                                                  "date_fin": tarea.date_fin, "state": tarea.state,
                                                  "rating": tarea.rating, "categoria_id": '1',
-                                                 "user_id": docente.id})
+                                                 "user_id": docente.id, "informe_id": active_ids[0]})
                     else:
                         print("Admin")
                     # print(tarea.id)
                     # print(tarea.name)
                 else:
                     print("No Entro")
+
+        self.env["cv.informe"].browse(active_ids[0]).write({"estado_Inicializar": True})
+        self.env.cr.commit()
+        #informe[active_ids].estado_Inicializar = True
     
     def vista_tree_tareas(self):
+        id_def = self.env.context.get('id_def');
         return {
             "type": "ir.actions.act_window",
             "name": "Tareas",
             "res_model": "cv.tarea",
             "views": [(False, "kanban"),(False, "form"),(False, "tree")],
             "target": "self",
-            "domain": [["informe_id", "=", self.id]]
+
+            "domain": [["informe_id", "=", self.id], ["user_id", "=", id_def]]
         }
 
 

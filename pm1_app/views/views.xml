@@ -257,10 +257,14 @@
                 <tree>
                     <field name="name"/>
                     <field name="objetivo"/>
+                    <field name="estado_Inicializar" invisible="1"/>
+
                     <button
+
                             string="Inicializar Plan Mejoras"
                             type="object"
                             name="inicializar"
+                            attrs="{'invisible':[('estado_Inicializar', '!=', False)]}"
                             class="btn btn-primary"/>
 
                 </tree>

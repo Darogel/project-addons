@@ -9,3 +9,8 @@
 9.  (Listo) Reporte (Primordial)
 10.  Controladores   (Alta)
 
+
+PLAN MEJORAS
+
+1. Preguntar acerca del historial de plan mejoras. (Ocultar plan mejoras a doncetes, excepto rol admin y consejo)
+
