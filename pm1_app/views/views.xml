@@ -1,0 +1,482 @@
+<odoo>
+    <data>
+        <!--view form-->
+        <record id="view_form_tarea" model="ir.ui.view">
+            <field name="name">view.form.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    <field name="categoria_id" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box d-flex justify-content-end" name="button_box">
+                        </div>
+                        <group>
+                            <field name="name" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="state" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                                <field name="expired" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                            </group>
+                            <group>
+                                <field name="categoria_id" options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            </group>
+                            <group>
+                                <field name="date_init" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                                <field name="date_fin" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                            </group>
+                            <group>
+                                <field name="user_id" />
+                                <field name="evicencia_id" groups="pm1_app.res_groups_administrador, pm1_app.res_groups_docente"/>
+                            </group>
+
+                        </group>
+                        <group>
+                                <field name="description"  required="1" groups = "pm1_app.res_groups_docente"/>
+                                <field name="description"  required="1" groups = "pm1_app.res_groups_administrador" invisible="1"/>
+                        </group>
+                        <notebook>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                            <field name="message_ids" widget="mail_thread" groups="pm1_app.res_groups_administrador"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_form_docente" model="ir.ui.view">
+            <field name="name">view.form.res.users</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="phone" required="1"/>
+                                <field name="password" value="docente2020"/>
+                                <field name="login"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="groups_id"  domain="['|','|', ('id','=',12),('id','=',11),('id','=',13)]"/> <!-- domain="['|','|', ('id','=',31),('id','=',32),('id','=',33)]"-->
+                            </group>
+                        </group>
+                        <group>
+                            <field name="pm_pedagogia"/>
+                            <field name="pm_etico"/>
+                            <field name="pm_academico"/>
+                        </group>
+                        <group>
+                            <field name="us_cat"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="view_kanban_tarea" model="ir.ui.view">
+            <field name="name">view.tree.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                 <kanban  default_group_by = "categoria_id" class="o_kanban_small_column o_kanban_project_tasks">
+                   <field name="name"/>
+                   <field name="state"/>
+                   <field name="categoria_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
+                   <field name="create_uid"/>
+                     <field name="user_id" />
+                     <progressbar field="state" colors='{"hecho": "success", "pendiente": "danger", "desarrollo": "muted"}'/>
+                   <templates>
+                       <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_global_click">
+                               <div class="o_kanban_image">
+
+                               </div>
+                               <div class="oe_kanban_details">
+                                   <t class="o_kanban_record_title">
+                                       <strong t-esc="record.name.value"/>
+                                   </t>
+                                   <div t-if="record.state.value">
+                                       <t t-esc="record.state.value"/>
+                                   </div>
+                                   <div t-if="record.categoria_id.value">
+                                       <t t-esc="record.categoria_id.value"/>
+                                   </div>
+                                   <div t-if="record.user_id.value">
+                                       <t t-esc="record.user_id.value"/>
+                                   </div>
+                               </div>
+                           </div>
+                       </t>
+                   </templates>
+                 </kanban>
+            </field>
+        </record>
+
+        <record id="view_kanban_docente" model="ir.ui.view">
+            <field name="name">view.tree.res.users</field>
+            <field name="model">res.users</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                 <kanban> <!--decoration-success="total_val == 100" decoration-danger="total_val == 0">-->
+                   <field name="name"/>
+                   <field name="phone"/>
+                     <field name="count_tarea"/>
+                   <field name="us_cat" optional="hide"/>
+                   <!--<field name="us_cat" invisible="1"/>-->
+                   <templates>
+                       <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_global_click">
+                               <div class="o_kanban_image">
+                                   <img src="https://thumbs.dreamstime.com/b/icono-del-var%C3%B3n-del-usuario-ninguna-cara-43652345.jpg"
+                                         width="80"
+                                         height="80"/>
+                               </div>
+                               <div class="oe_kanban_details">
+                                   <t class="o_kanban_record_title">
+                                       <strong t-esc="record.name.value"/>
+                                   </t>
+                                   <div t-if="record.phone.value">
+                                       <t t-esc="record.phone.value"/>
+                                   </div>
+                                   <div t-if="record.count_tarea.value">
+                                       <t t-esc="record.count_tarea.value"/>
+                                   </div>
+                                   <div t-if="record.us_cat.value">
+                                       <t t-esc="record.us_cat.value"/>
+                                   </div>
+                                   <!--<div t-if="record.us_cat.value">
+                                       <t t-esc="record.us_cat.value"/>
+                                   </div>-->
+                               </div>
+                               <br/>
+                               <div align="right" class="oe_button_box" >
+                                    <button id="task_view"
+                                            string="Ver Tareas"
+                                            type="object"
+                                            name="vista_tree"
+                                            class="btn btn-primary">Ver Tareas</button>
+                               </div>
+                           </div>
+                       </t>
+                   </templates>
+                 </kanban>
+            </field>
+        </record>
+
+
+        <record id="view_tree_tarea" model="ir.ui.view">
+            <field name="name">view.tree.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+
+                   <field name="date_init" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_tree_docente" model="ir.ui.view">
+            <field name="name">view.tree.res.docente</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="count_tarea"/>
+                   <field name="email" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_tree_informe" model="ir.ui.view">
+            <field name="name">view.tree.cv.informe</field>
+            <field name="model">cv.informe</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="objetivo"/>
+                    <button
+                            string="Inicializar Plan Mejoras"
+                            type="object"
+                            name="inicializar"
+                            class="btn btn-primary"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+
+        <!--  TAREA TAGS !
+        <record id="view_tree_tag" model="ir.ui.view">
+            <field name="name">view.tree.cv.tag</field>
+            <field name="model">cv.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>-->
+
+         <!--Vista Para La Busqueda (Filtros - Agrupacion)
+        <record id="view_search_docentes" model="ir.ui.view">
+            <field name="name">view.search.sa.movimiento</field>
+            <field name="model">sa.movimiento</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="notas"/>
+                    <field name="category_id"/>
+                    <field name="tag_ids"/>
+                    <filter name="filter_tipo_ingresos"
+                            string="Ingresos"
+                            domain="[('type_mov','=','ingreso')]"/>
+                    <filter name="filter_tipo_gatos"
+                            string="Gastos"
+                            domain="[('type_mov','=','gasto')]"/>
+                    <separator/>
+                    <filter name="filter_today"
+                            string="Hoy"
+                            domain="[('date','&gt;=',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                            ('date','&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                    <filter name="filter_this_week"
+                            string="Ultimos 7 dias"
+                            domain="[('date','&lt;=',context_today().strftime('%Y-%m-%d 23:59:59')),
+                            ('date','&gt;=',(context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+
+                    <filter name="group_type_move"
+                            string="Tipo"
+                            context="{'group_by':'type_mov'}"/>
+                    <separator/>
+                    <filter name="group_date"
+                            string="Fecha"
+                            context="{'group_by':'date'}"/>
+                </search>
+            </field>
+        </record>-->
+
+        <record model="ir.ui.view" id="cv_categoria_view_search">
+            <field name="name">cv.categoria.view.search</field>
+            <field name="model">cv.categoria</field>
+            <field name="arch" type="xml">
+                <search string="Stages">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+
+
+        <!--Vista de calendario-->
+        <record id="view_calendar_tarea" model="ir.ui.view">
+            <field name="name">view.calendar.cv.tarea</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date_init" mode="month">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--Vista Usuario-->
+       <record id="view_res_users_add_tareas" model="ir.ui.view">
+            <field name="name">view.res.users.add.tareas</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_simple_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="sheet" position="inside"/>
+                <group>
+                    <field name="email"/>
+                    <field name="tarea_ids"/>
+
+                </group>
+            </field>
+       </record>
+
+
+
+        <record model="ir.ui.view" id="view_tarea_search">
+            <field name="name">cv.tarea.view.search</field>
+            <field name="model">cv.tarea</field>
+            <field name="arch" type="xml">
+                <search string="Tareas">
+                    <field name="name"/>
+                    <field name="tag_ids" widget="many2many_tags"/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Categorias" name="group_stage_id"
+                        context="{'group_by': 'categoria_id'}"/>
+                        <filter string="Docentes" name="group_user_id"
+                        context="{'group_by': 'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Filtro por valoración docente-->
+        <record model="ir.ui.view" id="view_docente_search_valoracion">
+            <field name="name">res.users.view.search</field>
+            <field name="model">res.users</field>
+            <field name="arch" type="xml">
+                <search string="Docentes">
+                    <field name="name"/>
+                    <field name="us_cat"/>
+                    <group string="Group By">
+                        <filter string="Valoracion"
+                                name="group_valoracion_docente"
+                                context="{'group_by':'us_cat'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_view_tarea" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cv.tarea</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <!--<field name="search_view_id" ref="base.view_res_partner_filter"/>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Nueva Tarea para empezar a Gestionar sus tareas
+                </p>
+                <p></p>
+            </field>
+        </record>
+
+        <record id="action_view_tarea_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="pm1_app.view_kanban_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
+        <record id="action_view_tarea_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="pm1_app.view_tree_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
+        <record id="action_view_tarea_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="pm1_app.view_form_tarea"/>
+            <field name="act_window_id" ref="action_view_tarea"/>
+        </record>
+
+
+        <record id="action_view_usuario" model="ir.actions.act_window">
+            <field name="name">Docentes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="pm1_app.view_docente_search_valoracion"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a contact in your address book
+                </p><p>
+                    Odoo helps you to easily track all activities related to a customer.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_docente_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="pm1_app.view_kanban_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+
+        <record id="action_view_docente_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="pm1_app.view_tree_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+
+        <record id="action_view_docente_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="pm1_app.view_form_docente"/>
+            <field name="act_window_id" ref="action_view_usuario"/>
+        </record>
+
+
+        <!--Acciones de ventana categoria-->
+        <record id="action_view_categoria" model="ir.actions.act_window">
+            <field name="name">Categoria</field>
+            <field name="res_model">cv.categoria</field>
+            <field name="limit">10</field>
+            <!--<field name="view_mode">kanban,form</field>-->
+        </record>
+
+         <!--Acciones de ventana tag-->
+        <record id="action_view_tag" model="ir.actions.act_window">
+            <field name="name">Etiquetas</field>
+            <field name="res_model">cv.tag</field>
+            <field name="limit">10</field>
+            <!--<field name="view_mode">kanban,form</field>-->
+        </record>
+
+
+        <record id="action_view_informe" model="ir.actions.act_window">
+            <field name="name">Informe</field>
+            <field name="res_model">cv.informe</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--Menú-->
+         <menuitem id="menu_main_pm1_app"
+                  name="Plan Mejoras"
+                  parent=""
+                  action="pm1_app.action_view_tarea"/>
+
+        <menuitem id="menu_docentes"
+                  name="Docentes"
+                  sequence = "0"
+                  groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"
+                  parent="pm1_app.menu_main_pm1_app"
+                  action="pm1_app.action_view_usuario"/>
+
+        <menuitem id="menu_tarea"
+                  name="Tareas"
+                  sequence = "1"
+                  parent="pm1_app.menu_main_pm1_app"
+                  action="pm1_app.action_view_tarea"/>
+
+        <menuitem id="menu_configuracion"
+                  name="Configuración"
+                  groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"
+                  parent="pm1_app.menu_main_pm1_app"/>
+
+        <menuitem id="menu_categoria"
+                  name="Categoria"
+                  parent="pm1_app.menu_configuracion"
+                  action="pm1_app.action_view_categoria"/>
+
+        <menuitem id="menu_tag"
+                  name="Etiquetas"
+                  parent="pm1_app.menu_configuracion"
+                  action="pm1_app.action_view_tag"/>
+
+        <menuitem id="menu_informe"
+                  name="Informe"
+                  parent="pm1_app.menu_configuracion"
+                  action="pm1_app.action_view_informe"/>
+    </data>
+</odoo>

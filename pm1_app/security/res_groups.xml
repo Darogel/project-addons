@@ -1,0 +1,19 @@
+<odoo>
+    <record id="module_pm1_app" model="ir.module.category">
+        <field name="name">Csv App</field>
+    </record>
+    <record id="res_groups_administrador" model="res.groups">
+        <field name="name"> Administrador</field>
+        <field name="category_id" ref="pm1_app.module_pm1_app"/>
+    </record>
+
+    <record id="res_groups_docente" model="res.groups">
+        <field name="name"> Docentes</field>
+        <field name="category_id" ref="pm1_app.module_pm1_app"/>
+    </record>
+
+    <record id="res_groups_docente_consejo" model="res.groups">
+        <field name="name"> Docentes Consejo</field>
+        <field name="category_id" ref="pm1_app.module_pm1_app"/>
+    </record>
+</odoo>
