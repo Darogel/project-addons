@@ -258,9 +258,16 @@
                     <field name="name"/>
                     <field name="objetivo"/>
                     <field name="estado_Inicializar" invisible="1"/>
+                    <field name="estado_Comunicar" invisible="1"/>
 
                     <button
+                            string="Comunicar Plan Mejoras"
+                            type="object"
+                            name="canceled_progressbar"
+                            attrs="{'invisible':[('estado_Comunicar', '!=', False)]}"
+                            class="btn btn-primary"/>
 
+                    <button
                             string="Inicializar Plan Mejoras"
                             type="object"
                             name="inicializar"
@@ -471,8 +478,6 @@
 
 
 
-
-
         <!--Acciones de ventana categoria-->
         <record id="action_view_categoria" model="ir.actions.act_window">
             <field name="name">Categoria</field>
@@ -534,5 +539,21 @@
                   name="Informe"
                   parent="pm1_app.menu_configuracion"
                   action="pm1_app.action_view_informe"/>
+
+        <record model="ir.ui.view" id="confirm_wizard_form">
+            <field name="name">wizard.form</field>
+            <field name="model">cv.confirm_wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Confirm dialog">
+                    <field name="yes_no" readonly="1" />
+                    <footer>
+                        <button class="oe_highlight" name="yes" string="Yes" />
+                        <button class="oe_highlight" name="no" string="No" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
     </data>
 </odoo>

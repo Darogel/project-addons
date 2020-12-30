@@ -1,7 +1,7 @@
 from logging import info
 
 from odoo import fields, models, api, SUPERUSER_ID
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, RedirectWarning, Warning
 from datetime import datetime
 
 class Tarea(models.Model):
@@ -181,7 +181,9 @@ class Informe(models.Model):
     objetivo = fields.Char(string="Objetivos")
     conclusion = fields.Html(string="Conclusion")
 
-    estado_Inicializar = fields.Boolean(default=False)
+    estado_Inicializar = fields.Boolean(default=True)
+
+    estado_Comunicar = fields.Boolean(default=False)
 
     tarea_ids = fields.One2many("cv.tarea", "informe_id")
 
@@ -223,8 +225,39 @@ class Informe(models.Model):
 
         self.env["cv.informe"].browse(active_ids[0]).write({"estado_Inicializar": True})
         self.env.cr.commit()
-        #informe[active_ids].estado_Inicializar = True
-    
+        raise Warning('Las actividades se mostraran a los docentes y se enviará una '
+                      'notificación de la inicialización del Plan Mejoras.')
+
+    def return_confirmation(self):
+        return {
+            'name': 'Are you sure?',
+            'type': 'ir.actions.act_window',
+            'res_model': 'cv.confirm_wizard',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new'
+        }
+
+
+    def canceled_progressbar(self):
+
+        if (self.return_confirmation()):
+            print("HOla")
+        else:
+            print("Chao")
+
+    def comunicar(self):
+        active_ids = self.ids
+        #self.env["cv.informe"].browse(active_ids[0]).write({"estado_Inicializar": False})
+        #self.env["cv.informe"].browse(active_ids[0]).write({"estado_Comunicar": True})
+        #self.env.cr.commit()
+        action = self.env.ref('mail.action_discuss')
+        msg = ('Está seguro que desea comunicar el Plan Mejoras?\n Recuerde que debe socializarlo.')
+        raise RedirectWarning(msg, action.id, ('Ir a  comunicar el Plan Mejoras'), 'dsa')
+
+
+
+
     def vista_tree_tareas(self):
         id_def = self.env.context.get('id_def');
         return {
@@ -233,9 +266,24 @@ class Informe(models.Model):
             "res_model": "cv.tarea",
             "views": [(False, "kanban"),(False, "form"),(False, "tree")],
             "target": "self",
-
             "domain": [["informe_id", "=", self.id], ["user_id", "=", id_def]]
         }
+
+class confirm_wizard(models.TransientModel):
+    _name = 'cv.confirm_wizard'
+
+    yes_no = fields.Char(default='Do you want to proceed?')
+    
+
+    def yes(self):
+        return True
+
+
+    def no(self):
+        return False
+
+
+
 
 
 
