@@ -263,7 +263,7 @@
                     <button
                             string="Comunicar Plan Mejoras"
                             type="object"
-                            name="canceled_progressbar"
+                            name="comunicar"
                             attrs="{'invisible':[('estado_Comunicar', '!=', False)]}"
                             class="btn btn-primary"/>
 
@@ -545,11 +545,27 @@
             <field name="model">cv.confirm_wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Confirm dialog">
+                <form string="Comunicar Plan Mejoras">
                     <field name="yes_no" readonly="1" />
                     <footer>
-                        <button class="oe_highlight" type="object" name="yes" string="Yes" />
-                        <button class="oe_highlight" type="object" name="no" string="No" />
+                        <button string="Ir a  comunicar el Plan Mejoras" class="oe_highlight" type="object" name="yes"/>
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="confirm_wizard_formI">
+            <field name="name">wizard.formI</field>
+            <field name="model">cv.confirm_iniciar</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Inicializar Plan Mejoras">
+                    <field name="yes_no" readonly="1"/>
+                    <footer>
+                        <button string="Aceptar" class="oe_highlight" type="object" name="yes"/>
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
             </field>

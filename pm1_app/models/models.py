@@ -193,9 +193,23 @@ class Informe(models.Model):
         ('name_uniq', 'unique (name)', "Nombre name already exists !"),
     ]
 
-    def canceled_progressbar(self):
+    def inicializar(self):
         return {
-            'name': 'Are you sure?',
+            'name': 'Inicializar Plan Mejoras',
+            'type': 'ir.actions.act_window',
+            'res_model': 'cv.confirm_iniciar',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            "context": {"id_ini": self.id}
+        }
+        #raise Warning('Las actividades se mostraran a los docentes y se enviará una '
+         #             'notificación de la inicialización del Plan Mejoras.')
+
+
+    def comunicar(self):
+        return {
+            'name': 'Comunicar Plan Mejoras',
             'type': 'ir.actions.act_window',
             'res_model': 'cv.confirm_wizard',
             'view_mode': 'form',
@@ -203,54 +217,6 @@ class Informe(models.Model):
             'target': 'new',
             "context": {"id_infor": self.id}
         }
-
-    def inicializar(self):
-        active_ids = self.ids
-        print(active_ids)
-        lista_tareas = self.env["cv.tarea"].search([])
-        lista_docentes = self.env["res.users"].search([])
-
-
-
-
-        print(len(lista_docentes))
-        print(len(lista_tareas))
-        for tarea in lista_tareas:
-            print(tarea.informe_id.id)
-            print(active_ids[0])
-            for docente in lista_docentes:
-                if int(active_ids[0]) == int(tarea.informe_id):
-                    print("Entro")
-                    if docente.name != "Administrator":
-                        self.env["cv.tarea"].create({"name": tarea.name, "date_init": tarea.date_init,
-                                                 "date_fin": tarea.date_fin, "state": tarea.state,
-                                                 "rating": tarea.rating, "categoria_id": '1',
-                                                 "user_id": docente.id, "informe_id": active_ids[0]})
-                    else:
-                        print("Admin")
-                    # print(tarea.id)
-                    # print(tarea.name)
-                else:
-                    print("No Entro")
-
-        self.env["cv.informe"].browse(active_ids[0]).write({"estado_Inicializar": True})
-        self.env.cr.commit()
-        raise Warning('Las actividades se mostraran a los docentes y se enviará una '
-                      'notificación de la inicialización del Plan Mejoras.')
-
-
-
-    def comunicar(self):
-        active_ids = self.ids
-        #self.env["cv.informe"].browse(active_ids[0]).write({"estado_Inicializar": False})
-        #self.env["cv.informe"].browse(active_ids[0]).write({"estado_Comunicar": True})
-        #self.env.cr.commit()
-        action = self.env.ref('mail.action_discuss')
-        msg = ('Está seguro que desea comunicar el Plan Mejoras?\n Recuerde que debe socializarlo.')
-        raise RedirectWarning(msg, action.id, ('Ir a  comunicar el Plan Mejoras'))
-
-
-
 
     def vista_tree_tareas(self):
         id_def = self.env.context.get('id_def')
@@ -266,26 +232,62 @@ class Informe(models.Model):
 class confirm_wizard(models.TransientModel):
     _name = 'cv.confirm_wizard'
 
-    yes_no = fields.Char(default='Do you want to proceed?')
+    yes_no = fields.Char(default='Está seguro que desea comunicar el Plan Mejoras? \n Recuerde que debe socializarlo.')
+
 
     def yes(self):
         id_def = self.env.context.get('id_infor')
         self.env["cv.informe"].browse(id_def).write({"estado_Inicializar": False})
         self.env["cv.informe"].browse(id_def).write({"estado_Comunicar": True})
         self.env.cr.commit()
-        print("Yes")
-
-
-    def no(self):
-        print("No")
         return {
-            "type": "ir.actions.act_window",
-            "name": "Conversaciones",
-            "res_model": "mail.mail",
-            'view_mode': 'form',
-            "target": "self"
+            "type": "ir.actions.client",
+            "tag": "mail.discuss",
+            "target": "main"
         }
 
+
+class confirm_wizardI(models.TransientModel):
+    _name = 'cv.confirm_iniciar'
+
+    yes_no = fields.Char(default='Las actividades se mostraran a los docentes y se enviará una notificación de la inicialización del Plan Mejoras.')
+
+
+    def yes(self):
+
+        info_id = self.env.context.get('id_ini')
+        print(info_id)
+        lista_tareas = self.env["cv.tarea"].search([])
+        lista_docentes = self.env["res.users"].search([])
+
+        print(len(lista_docentes))
+        print(len(lista_tareas))
+        for tarea in lista_tareas:
+            print(tarea.informe_id.id)
+            print(info_id)
+            for docente in lista_docentes:
+                if int(info_id) == (tarea.informe_id):
+                    print("Entro")
+                    if docente.name != "Administrator":
+                        self.env["cv.tarea"].create({"name": tarea.name, "date_init": tarea.date_init,
+                                                     "date_fin": tarea.date_fin, "state": tarea.state,
+                                                     "rating": tarea.rating, "categoria_id": '1',
+                                                     "user_id": docente.id, "informe_id": info_id})
+                    else:
+                        print("Admin")
+                    # print(tarea.id)
+                    # print(tarea.name)
+                else:
+                    print("No Entro")
+
+        self.env["cv.informe"].browse(info_id).write({"estado_Inicializar": True})
+        self.env.cr.commit()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "mail.discuss",
+            "target": "main"
+        }
 
 
 
