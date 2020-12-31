@@ -193,6 +193,22 @@ class Informe(models.Model):
         ('name_uniq', 'unique (name)', "Nombre name already exists !"),
     ]
 
+    def canceled_progressbar(self):
+        return {
+            'name': 'Are you sure?',
+            'type': 'ir.actions.act_window',
+            'res_model': 'cv.confirm_wizard',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new'
+        }
+
+    def return_confirmation(self):
+
+        if (self.return_confirmation()):
+            print("HOla")
+        else:
+            print("Chao")
 
     def inicializar(self):
         active_ids = self.ids
@@ -228,23 +244,7 @@ class Informe(models.Model):
         raise Warning('Las actividades se mostraran a los docentes y se enviará una '
                       'notificación de la inicialización del Plan Mejoras.')
 
-    def return_confirmation(self):
-        return {
-            'name': 'Are you sure?',
-            'type': 'ir.actions.act_window',
-            'res_model': 'cv.confirm_wizard',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new'
-        }
 
-
-    def canceled_progressbar(self):
-
-        if (self.return_confirmation()):
-            print("HOla")
-        else:
-            print("Chao")
 
     def comunicar(self):
         active_ids = self.ids
@@ -273,14 +273,16 @@ class confirm_wizard(models.TransientModel):
     _name = 'cv.confirm_wizard'
 
     yes_no = fields.Char(default='Do you want to proceed?')
-    
 
     def yes(self):
+        print("Yes")
         return True
 
-
     def no(self):
+        print("No")
         return False
+
+
 
 
 

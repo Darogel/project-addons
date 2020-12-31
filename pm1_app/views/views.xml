@@ -548,8 +548,8 @@
                 <form string="Confirm dialog">
                     <field name="yes_no" readonly="1" />
                     <footer>
-                        <button class="oe_highlight" name="yes" string="Yes" />
-                        <button class="oe_highlight" name="no" string="No" />
+                        <button class="oe_highlight" type="object" name="yes" string="Yes" />
+                        <button class="oe_highlight" type="object" name="no" string="No" />
                     </footer>
                 </form>
             </field>
