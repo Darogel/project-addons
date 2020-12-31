@@ -200,15 +200,9 @@ class Informe(models.Model):
             'res_model': 'cv.confirm_wizard',
             'view_mode': 'form',
             'view_type': 'form',
-            'target': 'new'
+            'target': 'new',
+            "context": {"id_infor": self.id}
         }
-
-    def return_confirmation(self):
-
-        if (self.return_confirmation()):
-            print("HOla")
-        else:
-            print("Chao")
 
     def inicializar(self):
         active_ids = self.ids
@@ -253,13 +247,13 @@ class Informe(models.Model):
         #self.env.cr.commit()
         action = self.env.ref('mail.action_discuss')
         msg = ('Está seguro que desea comunicar el Plan Mejoras?\n Recuerde que debe socializarlo.')
-        raise RedirectWarning(msg, action.id, ('Ir a  comunicar el Plan Mejoras'), 'dsa')
+        raise RedirectWarning(msg, action.id, ('Ir a  comunicar el Plan Mejoras'))
 
 
 
 
     def vista_tree_tareas(self):
-        id_def = self.env.context.get('id_def');
+        id_def = self.env.context.get('id_def')
         return {
             "type": "ir.actions.act_window",
             "name": "Tareas",
@@ -275,12 +269,24 @@ class confirm_wizard(models.TransientModel):
     yes_no = fields.Char(default='Do you want to proceed?')
 
     def yes(self):
+        id_def = self.env.context.get('id_infor')
+        self.env["cv.informe"].browse(id_def).write({"estado_Inicializar": False})
+        self.env["cv.informe"].browse(id_def).write({"estado_Comunicar": True})
+        self.env.cr.commit()
         print("Yes")
-        return True
+
 
     def no(self):
         print("No")
-        return False
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Conversaciones",
+            "res_model": "mail.mail",
+            'view_mode': 'form',
+            "target": "self"
+        }
+
+
 
 
 
