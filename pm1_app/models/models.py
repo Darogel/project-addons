@@ -20,10 +20,10 @@ class Tarea(models.Model):
     #Eliminar campo state porque se lo maneja en otra clase Estado.
     state = fields.Selection(selection=[("pendiente","Pendiente"),("desarrollo","Desarrollo"),("hecho","Hecho")],
                                 string="Estado",
-                                default="pendiente", required=True, track_visibility="onchange")
+                                default="pendiente", track_visibility="onchange")
 
-    rating = fields.Selection(selection=[("bajo", "Bajo"), ("medio", "Medio"), ("alto", "Alto")],
-                             string="Valor",
+    rating = fields.Selection(selection=[("nulo", "Sin Calificar"),("noc", "No Cumple"), ("cep", "Cumple en parte"), ("cum", "Cumple")],
+                             string="Ponderación",
                              default="bajo", required=True)
 
 
@@ -113,14 +113,19 @@ class ResUser(models.Model):
 
     informe_id = fields.One2many("cv.informe", "user_ids")
 
-    @api.depends("tarea_ids")
+    @api.depends("tarea_ids.rating")
     def _contador_tareas(self):
+        print("Hola")
+        lista_informe = self.env["cv.informe"].search([])
+        for informe in lista_informe:
+            if informe.finalizado == False:
+                for record in self:
+                    movs = record.tarea_ids.filtered(
+                        lambda r: r.rating == 'nulo')
+                    print(len(movs))
+                    record.count_tarea = len(movs)
 
-        for record in self:
-            mes = datetime.now().year
-            movs = record.tarea_ids.filtered(
-                lambda r: r.create_date.year == mes)
-            record.count_tarea = len(movs)
+
 
     @api.constrains('pm_academico')
     def _check_pm_academico(self):
@@ -165,7 +170,7 @@ class ResUser(models.Model):
             "name": "Plan Actividades",
             "res_model": "cv.informe",
             "docente": self.id,
-            "views": [(False, "kanban"),(False, "tree")],
+            "views": [(False, "kanban")],
             "target": "self",
             "context": {"id_def": self.id}
         }
@@ -175,15 +180,23 @@ class Informe(models.Model):
     _name = "cv.informe"
     _description = "Informe"
 
-    name = fields.Char(required=True, translate=True)
+    name = fields.Char(required=True, translate=True, string="Nombre")
     date_init = fields.Date(string="Fecha de Inicio", required=True)
     date_fin = fields.Date(string="Fecha Fin", required=True)
-    objetivo = fields.Char(string="Objetivos")
-    conclusion = fields.Html(string="Conclusion")
+    objetivo = fields.Html(string="Objetivos")
+    introduccion = fields.Html(string="Introducción")
+    conclusion = fields.Html(string="Conclusión")
+    recomendacion = fields.Html(string="Recomendación")
+
+    add_resultados = fields.Boolean(default=True, string="Agregar resultados de la EDD")
+
+    add_anexos = fields.Boolean(default=True, string="Incluir Anexos")
 
     estado_Inicializar = fields.Boolean(default=True)
 
     estado_Comunicar = fields.Boolean(default=False)
+
+    finalizado = fields.Boolean(default=False)
 
     tarea_ids = fields.One2many("cv.tarea", "informe_id")
 
@@ -266,7 +279,7 @@ class confirm_wizardI(models.TransientModel):
             print(tarea.informe_id.id)
             print(info_id)
             for docente in lista_docentes:
-                if int(info_id) == (tarea.informe_id):
+                if int(info_id) == int(tarea.informe_id):
                     print("Entro")
                     if docente.name != "Administrator":
                         self.env["cv.tarea"].create({"name": tarea.name, "date_init": tarea.date_init,
