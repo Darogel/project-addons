@@ -12,6 +12,19 @@
         <field name="perm_read" eval="1"/>
     </record>
 
+    <record id="ir_rule_consejo_mostrar_tareas_propias" model="ir.rule">
+        <field name="name">Mostrar tareas Consejo</field>
+        <field name="model_id" ref="pm1_app.model_cv_tarea"/>
+        <field name="domain_force">
+            [(1,'=',1)]
+        </field>
+        <field name="groups" eval="[(4, ref('pm1_app.res_groups_docente_consejo'))]"></field>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
     <record id="ir_rule_docente_mostrar_description_administrador" model="ir.rule">
         <field name="name">Descripcion de tareas Admin</field>
         <field name="model_id" ref="pm1_app.model_cv_evidencia"/>

@@ -107,7 +107,7 @@ class ResUser(models.Model):
     pm_etico = fields.Float(string="Valor Ético", required=True)
     pm_academico = fields.Float(string="Valor Académico", required=True)
 
-    count_tarea = fields.Float(string="Contador", compute="_contador_tareas", store=True)
+    count_tarea = fields.Integer(string="Tareas por Ponderar", compute="_contador_tareas", store=True)
     tarea_ids = fields.One2many("cv.tarea", "user_id")
     total_val = fields.Float("Total Valoracion", compute="_compute_valoracion_docente", store=True)
 

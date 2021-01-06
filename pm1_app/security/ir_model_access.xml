@@ -9,6 +9,46 @@
         <field name="perm_read" eval="1"/>
     </record>
 
+    <record id="model_access_tarea_consejo" model="ir.model.access">
+        <field name="name">model.access.tarea_consejo</field>
+        <field name="model_id" ref="pm1_app.model_cv_tarea"/>
+        <field name="group_id" ref="pm1_app.res_groups_docente_consejo"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+    <record id="model_access_categoria_consejo" model="ir.model.access">
+        <field name="name">model.access.categoria_consejo</field>
+        <field name="model_id" ref="pm1_app.model_cv_categoria"/>
+        <field name="group_id" ref="pm1_app.res_groups_docente_consejo"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+    <record id="model_access_informe_consejo" model="ir.model.access">
+        <field name="name">model.access.informe_consejo</field>
+        <field name="model_id" ref="pm1_app.model_cv_informe"/>
+        <field name="group_id" ref="pm1_app.res_groups_docente_consejo"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+    <record id="model_access_evidencia_consejo" model="ir.model.access">
+        <field name="name">model.access.evidencia_consejo</field>
+        <field name="model_id" ref="pm1_app.model_cv_evidencia"/>
+        <field name="group_id" ref="pm1_app.res_groups_docente_consejo"/><!--Administracion/Ajustes-->
+        <field name="perm_create" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
      <record id="model_access_categoria" model="ir.model.access">
         <field name="name">model.access.categoria</field>
         <field name="model_id" ref="pm1_app.model_cv_categoria"/>
