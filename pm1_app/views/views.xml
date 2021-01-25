@@ -13,36 +13,36 @@
                         <div class="oe_button_box d-flex justify-content-end" name="button_box">
                         </div>
                         <group>
-                            <field name="name" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                            <field name="name" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                         </group>
                         <group>
                             <group>
-                                <field name="rating" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
-                                <field name="expired" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                                <field name="rating" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
+                                <field name="expired" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                             </group>
                             <group>
                                 <field name="categoria_id" options="{'no_quick_create':True, 'no_create_edit':True, 'no_open':True}"/>
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                             </group>
                             <group>
-                                <field name="date_init" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
-                                <field name="date_fin" required="1" groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"/>
+                                <field name="date_init" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
+                                <field name="date_fin" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                             </group>
                             <group>
                                 <field name="user_id" invisible="1"/>
-                                <field name="evicencia_id" groups="pm1_app.res_groups_administrador, pm1_app.res_groups_docente"/>
+                                <field name="evicencia_id" groups="plan_mejoras.res_groups_administrador, plan_mejoras.res_groups_docente"/>
                             </group>
 
                         </group>
                         <group>
-                                <field name="description"  required="1" groups = "pm1_app.res_groups_docente"/>
-                                <field name="description"  required="1" groups = "pm1_app.res_groups_administrador" invisible="1"/>
+                                <field name="description"  required="1" groups = "plan_mejoras.res_groups_docente"/>
+                                <field name="description"  required="1" groups = "plan_mejoras.res_groups_administrador" invisible="1"/>
                         </group>
                         <notebook>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
-                            <field name="message_ids" widget="mail_thread" groups="pm1_app.res_groups_administrador"/>
+                            <field name="message_ids" widget="mail_thread" groups="plan_mejoras.res_groups_administrador"/>
                     </div>
                 </form>
             </field>
@@ -474,7 +474,6 @@
                 <gantt string="Session Gantt"
                        date_start="date_init" date_stop="date_fin"
                        default_group_by='user_id'>
-                    das
                 </gantt>
             </field>
         </record>
@@ -496,21 +495,21 @@
         <record id="action_view_tarea_kanban" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="pm1_app.view_kanban_tarea"/>
+            <field name="view_id" ref="plan_mejoras.view_kanban_tarea"/>
             <field name="act_window_id" ref="action_view_tarea"/>
         </record>
 
         <record id="action_view_tarea_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="pm1_app.view_tree_tarea"/>
+            <field name="view_id" ref="plan_mejoras.view_tree_tarea"/>
             <field name="act_window_id" ref="action_view_tarea"/>
         </record>
 
         <record id="action_view_tarea_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="pm1_app.view_form_tarea"/>
+            <field name="view_id" ref="plan_mejoras.view_form_tarea"/>
             <field name="act_window_id" ref="action_view_tarea"/>
         </record>
 
@@ -520,7 +519,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.users</field>
             <field name="view_mode">kanban,tree,form,graph</field>
-            <field name="search_view_id" ref="pm1_app.view_docente_search_valoracion"/>
+            <field name="search_view_id" ref="plan_mejoras.view_docente_search_valoracion"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a contact in your address book
@@ -533,21 +532,21 @@
         <record id="action_view_docente_kanban" model="ir.actions.act_window.view">
             <field name="sequence" eval="0"/>
             <field name="view_mode">kanban</field>
-            <field name="view_id" ref="pm1_app.view_kanban_docente"/>
+            <field name="view_id" ref="plan_mejoras.view_kanban_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
 
         <record id="action_view_docente_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="pm1_app.view_tree_docente"/>
+            <field name="view_id" ref="plan_mejoras.view_tree_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
 
         <record id="action_view_docente_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="pm1_app.view_form_docente"/>
+            <field name="view_id" ref="plan_mejoras.view_form_docente"/>
             <field name="act_window_id" ref="action_view_usuario"/>
         </record>
 
@@ -580,40 +579,40 @@
          <menuitem id="menu_main_pm1_app"
                   name="Plan Mejoras"
                   parent=""
-                  action="pm1_app.action_view_tarea"/>
+                  action="plan_mejoras.action_view_tarea"/>
 
         <menuitem id="menu_docentes"
                   name="Docentes"
                   sequence = "0"
-                  groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"
-                  parent="pm1_app.menu_main_pm1_app"
-                  action="pm1_app.action_view_usuario"/>
+                  groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"
+                  parent="plan_mejoras.menu_main_pm1_app"
+                  action="plan_mejoras.action_view_usuario"/>
 
         <menuitem id="menu_tarea"
                   name="Tareas"
                   sequence = "1"
-                  parent="pm1_app.menu_main_pm1_app"
-                  action="pm1_app.action_view_tarea"/>
+                  parent="plan_mejoras.menu_main_pm1_app"
+                  action="plan_mejoras.action_view_tarea"/>
 
         <menuitem id="menu_configuracion"
                   name="Configuración"
-                  groups = "pm1_app.res_groups_administrador,pm1_app.res_groups_docente_consejo"
-                  parent="pm1_app.menu_main_pm1_app"/>
+                  groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"
+                  parent="plan_mejoras.menu_main_pm1_app"/>
 
         <menuitem id="menu_categoria"
                   name="Categoria"
-                  parent="pm1_app.menu_configuracion"
-                  action="pm1_app.action_view_categoria"/>
+                  parent="plan_mejoras.menu_configuracion"
+                  action="plan_mejoras.action_view_categoria"/>
 
         <menuitem id="menu_tag"
                   name="Etiquetas"
-                  parent="pm1_app.menu_configuracion"
-                  action="pm1_app.action_view_tag"/>
+                  parent="plan_mejoras.menu_configuracion"
+                  action="plan_mejoras.action_view_tag"/>
 
         <menuitem id="menu_informe"
                   name="Informe"
-                  parent="pm1_app.menu_configuracion"
-                  action="pm1_app.action_view_informe"/>
+                  parent="plan_mejoras.menu_configuracion"
+                  action="plan_mejoras.action_view_informe"/>
 
         <record model="ir.ui.view" id="confirm_wizard_form">
             <field name="name">wizard.form</field>
