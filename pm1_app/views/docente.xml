@@ -23,29 +23,29 @@
 
                             </group>
                             <group>
-                                <field name="nombre" required="1" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
-                                <field name="calificacion" required="1" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
-                                <field name="expirado" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
+                                <field name="nombre" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
+                                <field name="calificacion" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
+                                <field name="expirado" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                             </group>
                             <group>
-                                <field name="fecha_inicio" required="1" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
-                                <field name="fecha_fin" required="1" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
+                                <field name="fecha_inicio" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
+                                <field name="fecha_fin" required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                             </group>
                             <group>
                                 <field name="user_id" invisible="1"/>
-                                <field name="evicencia_id" groups="pm_app.res_groups_administrador, pm_app.res_groups_docente"/>
+                                <field name="evicencia_id" groups="plan_mejoras.res_groups_administrador, plan_mejoras.res_groups_docente"/>
                             </group>
 
                         </group>
                         <group>
-                                <field name="descripcion"  required="1" groups = "pm_app.res_groups_docente"/>
-                                <field name="descripcion"  required="1" groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo" invisible="1"/>
+                                <field name="descripcion"  required="1" groups = "plan_mejoras.res_groups_docente"/>
+                                <field name="descripcion"  required="1" groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo" invisible="1"/>
                         </group>
                         <notebook>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
-                            <field name="message_ids" widget="mail_thread" groups="pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"/>
+                            <field name="message_ids" widget="mail_thread" groups="plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"/>
                     </div>
                 </form>
             </field>
@@ -604,41 +604,41 @@
          <menuitem id="menu_main_pm_app"
                   name="Plan Mejoras"
                   parent=""
-                  action="pm_app.action_view_usuario"/>
+                  action="plan_mejoras.action_view_usuario"/>
 
         <menuitem id="menu_docentes"
                   name="Docentes"
                   sequence = "0"
-                  groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"
-                  parent="pm_app.menu_main_pm_app"
-                  action="pm_app.action_view_usuario"/>
+                  groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"
+                  parent="plan_mejoras.menu_main_pm_app"
+                  action="plan_mejoras.action_view_usuario"/>
 
         <menuitem id="menu_tarea"
                   name="Tareas"
                   sequence = "1"
-                  parent="pm_app.menu_main_pm_app"
-                  action="pm_app.action_view_tarea"/>
+                  parent="plan_mejoras.menu_main_pm_app"
+                  action="plan_mejoras.action_view_tarea"/>
 
         <menuitem id="menu_plan"
                   name="Plan Mejoras"
                   sequence = "2"
-                  parent="pm_app.menu_main_pm_app"
-                  action="pm_app.action_view_informe"/>
+                  parent="plan_mejoras.menu_main_pm_app"
+                  action="plan_mejoras.action_view_informe"/>
 
         <menuitem id="menu_configuracion"
                   name="Configuración"
-                  groups = "pm_app.res_groups_administrador,pm_app.res_groups_docente_consejo"
-                  parent="pm_app.menu_main_pm_app"/>
+                  groups = "plan_mejoras.res_groups_administrador,plan_mejoras.res_groups_docente_consejo"
+                  parent="plan_mejoras.menu_main_pm_app"/>
 
         <menuitem id="menu_categoria"
                   name="Estados Kanban"
-                  parent="pm_app.menu_configuracion"
-                  action="pm_app.action_view_categoria"/>
+                  parent="plan_mejoras.menu_configuracion"
+                  action="plan_mejoras.action_view_categoria"/>
 
         <menuitem id="menu_tag"
                   name="Etiquetas"
-                  parent="pm_app.menu_configuracion"
-                  action="pm_app.action_view_tag"/>
+                  parent="plan_mejoras.menu_configuracion"
+                  action="plan_mejoras.action_view_tag"/>
 
         <record model="ir.ui.view" id="confirm_wizard_form">
             <field name="name">wizard.form</field>
